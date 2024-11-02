@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
+
+:root {
+  background: #4285f4; /* Background color */
+}
+
+body {
+  font-family: "Plus Jakarta Sans", sans-serif; /* Apply the font globally */
+  margin: 0; /* Reset default margin */
+}
+
+.Main-section {
+  height: 100vh; /* Full viewport height */
+  display: flex; /* Flexbox layout */
+  position: relative; /* Positioning context */
+  overflow: hidden; /* Hide overflow */
+}
+
+.Side-section-wrapper {
+  display: flex; /* Flexbox for inner sections */
+  width: 100%; /* Full width */
+  min-height: 100vh; /* Minimum height */
+  margin: 0; /* Reset margin */
+  padding: 10px; /* Padding for inner space */
+  box-sizing: border-box; /* Include padding in width/height */
+  overflow: auto; /* Allow scrolling */
+}
+
+.Side-section-left {
+  flex: 0 0 50%; /* Fixed width of 50% */
+  background: #ffffff; /* White background */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items */
+  justify-content: center; /* Center items */
+  z-index: 1000; /* Stack order */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  border-radius: 8px; /* Rounded corners */
+}
+
+.Side-section-left h1 {
+  color: blue; /* Default text color */
+  font-family: "Podkova", serif;
+  font-size: xx-large; /* Large font size */
+  font-weight: 700; /* Bold weight */
+  position: absolute; /* Absolute positioning */
+}
+.Side-section-left p {
+  color: #4285f4;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 800;
+  align-items: center;
+  display: flex;
+}
+.Side-section-right {
+  flex: 0 0 30%; /* Fixed width of 30% */
+  background: transparent; /* Red background */
+  display: flex; /* Use flexbox */
+  flex-direction: column; /* Stack items vertically */
+  margin-left: 10%; /* Left margin */
+  align-items: center; /* Center items */
+  justify-content: center; /* Center items */
+  z-index: 1000; /* Stack order */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  border-radius: 8px; /* Rounded corners */
+}
