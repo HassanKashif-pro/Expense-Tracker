@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap");
-
 :root {
   background: #4285f4; /* Background color */
 }
@@ -40,10 +38,15 @@ body {
 
 .Side-section-left h1 {
   color: blue; /* Default text color */
-  font-family: "Podkova", serif;
-  font-size: xx-large; /* Large font size */
+  font-size: 35px; /* Large font size */
   font-weight: 700; /* Bold weight */
   position: absolute; /* Absolute positioning */
+}
+.podkova-font {
+  font-family: "Podkova", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
 }
 .Side-section-left p {
   color: #4285f4;

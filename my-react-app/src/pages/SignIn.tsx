@@ -7,7 +7,9 @@ const SignIn = () => {
     <div className="Main-section">
       <div className="Side-section-wrapper">
         <div className="Side-section-left">
-          <h1 style={{ top: "0", left: "30px" }}>Expenso</h1>
+          <h1 style={{ top: "0", left: "30px" }} className="podkova-font">
+            Expenso
+          </h1>
           <div>
             <img src="/R.png" />
           </div>
@@ -20,8 +22,8 @@ const SignIn = () => {
             }}
           >
             <p>
-              Welcome to&nbsp;&nbsp;
-              <span style={{ color: "blue" }}>Expenso</span>
+              Welcome to&nbsp;
+              <span style={{ color: "blue", fontWeight: "800" }}>Expenso</span>
             </p>
             <span
               style={{ color: "#4285F4", position: "relative", left: "15px" }}
