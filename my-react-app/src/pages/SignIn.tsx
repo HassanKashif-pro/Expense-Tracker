@@ -109,14 +109,18 @@ const SignIn = () => {
                     <FormItem>
                       <FormLabel className="FormLabel">Email Here</FormLabel>
                       <FormControl>
-                        <Input
-                          prefix={<FontAwesomeIcon icon={faUser} />}
-                          type="email"
-                          placeholder="example@email.com"
-                          {...field}
-                          className="custom-input"
-                          style={{ marginBottom: "20px" }}
-                        />
+                        <div className="input-wrapper">
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            className="custom-icon"
+                          />
+                          <Input
+                            type="email"
+                            placeholder="example@email.com"
+                            {...field}
+                            className="custom-input"
+                          />
+                        </div>
                       </FormControl>
                     </FormItem>
                   )}
@@ -129,13 +133,18 @@ const SignIn = () => {
                     <FormItem>
                       <FormLabel className="FormLabel">Password Here</FormLabel>
                       <FormControl>
-                        <Input
-                          prefix={<FontAwesomeIcon icon={faLock} />}
-                          type="password"
-                          placeholder="at least 8 characters"
-                          {...field}
-                          className="custom-input"
-                        />
+                        <div className="input-wrapper">
+                          <FontAwesomeIcon
+                            icon={faLock}
+                            className="custom-icon"
+                          />
+                          <Input
+                            type="password"
+                            placeholder="at least 8 characters"
+                            {...field}
+                            className="custom-input"
+                          />
+                        </div>
                       </FormControl>
                     </FormItem>
                   )}

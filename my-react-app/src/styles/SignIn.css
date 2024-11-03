@@ -96,6 +96,10 @@ body {
   background-color: #f0f5ff;
   font-size: 1rem;
   margin-bottom: 0px;
+  padding-left: 40px;
+  padding-right: 100px;
+  font-size: 16px;
+  border: 1px solid #ddd;
 }
 
 .FormLabel {
@@ -159,4 +163,25 @@ body {
   flex-grow: 1; /* Allow the line to grow and fill available space */
   height: 1px; /* Line height */
   background-color: #ffffff; /* Line color */
+}
+/* Wrapper styles to position the icon and input */
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Icon styling */
+.custom-icon {
+  color: #555; /* Customize icon color */
+  margin-left: 10px; /* Space between icon and input */
+  font-size: 18px; /* Adjust icon size */
+  position: absolute;
+  z-index: 1000;
+}
+/* Input focus styling */
+.custom-input:focus {
+  border-color: #007bff; /* Custom color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
