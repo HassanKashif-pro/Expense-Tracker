@@ -17,37 +17,44 @@ body {
 .Side-section-wrapper {
   display: flex; /* Flexbox for inner sections */
   width: 100%; /* Full width */
-  min-height: 100vh; /* Minimum height */
+  height: 100%; /* Ensure full height for both sides */
   margin: 0; /* Reset margin */
   padding: 10px; /* Padding for inner space */
   box-sizing: border-box; /* Include padding in width/height */
-  overflow: auto; /* Allow scrolling */
 }
-
-.Side-section-left {
-  flex: 0 0 50%; /* Fixed width of 50% */
-  background: #ffffff; /* White background */
+.Register-Forms {
+  margin-top: 50px;
+  display: flex;
+}
+.Side-section-left,
+.Side-section-right {
+  flex: 1; /* Allow both sections to take equal space */
   display: flex; /* Use flexbox */
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center items */
   justify-content: center; /* Center items */
   z-index: 1000; /* Stack order */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
   border-radius: 8px; /* Rounded corners */
+}
+
+.Side-section-left {
+  background: #ffffff; /* White background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
 }
 
 .Side-section-left h1 {
   color: blue; /* Default text color */
-  font-size: 35px; /* Large font size */
+  font-size: 45px; /* Large font size */
   font-weight: 700; /* Bold weight */
   position: absolute; /* Absolute positioning */
 }
+
 .podkova-font {
   font-family: "Podkova", serif;
   font-optical-sizing: auto;
   font-weight: 800;
-  font-style: normal;
 }
+
 .Side-section-left p {
   color: #4285f4;
   justify-content: center;
@@ -56,15 +63,100 @@ body {
   align-items: center;
   display: flex;
 }
+
 .Side-section-right {
-  flex: 0 0 30%; /* Fixed width of 30% */
   background: transparent; /* Red background */
-  display: flex; /* Use flexbox */
-  flex-direction: column; /* Stack items vertically */
-  margin-left: 10%; /* Left margin */
-  align-items: center; /* Center items */
-  justify-content: center; /* Center items */
-  z-index: 1000; /* Stack order */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
-  border-radius: 8px; /* Rounded corners */
+}
+
+.welcome-title {
+  font-size: 2rem;
+  color: #ffffff;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.sub-title {
+  font-size: 1rem;
+  color: #d1d5db;
+  margin-bottom: 100px;
+}
+
+.FormLabel {
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.custom-input {
+  position: relative;
+  width: 92%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background-color: #f0f5ff;
+  font-size: 1rem;
+  margin-bottom: 0px;
+}
+
+.FormLabel {
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.custom-input::placeholder {
+  color: #9ca3af;
+}
+
+.form-footer {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space out the "Forgot Password" link and the button */
+  align-items: center;
+  margin-top: 20px; /* Adjust for spacing above the footer */
+  width: 100%; /* Make sure it takes full width */
+}
+
+.forgot-password-link {
+  color: #ffffff;
+  font-size: 0.875rem;
+  text-decoration: none;
+  margin-bottom: 20px; /* Remove extra margin */
+  align-self: flex-end; /* Align it to the end of the form */
+}
+
+.login-btn {
+  background-color: #1d4ed8;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 12px 0; /* Remove side padding so it spans width fully */
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%; /* Full width of its container */
+  max-width: 350px; /* Optional: Limit width to match the image's proportions */
+  text-align: center; /* Center-align text inside the button */
+}
+
+.login-btn:hover {
+  background-color: #2563eb;
+}
+.or-separator {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  margin: 20px 0; /* Adjust margin as needed */
+}
+
+.or-separator span {
+  margin: 0 10px; /* Space between the line and the text */
+  color: #ffffff; /* Text color */
+}
+
+.line {
+  flex-grow: 1; /* Allow the line to grow and fill available space */
+  height: 1px; /* Line height */
+  background-color: #ffffff; /* Line color */
 }
