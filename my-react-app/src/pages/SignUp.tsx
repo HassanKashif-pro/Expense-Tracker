@@ -20,19 +20,21 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig.ts";
 
 import { z } from "zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .max(20, { message: "Password cannot exceed 20 characters." }),
-  confirmPassword: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .max(20, { message: "Password cannot exceed 20 characters." }),
-});
+const formSchema = z
+  .object({
+    email: z.string().email({ message: "Invalid email address." }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long." })
+      .max(20, { message: "Password cannot exceed 20 characters." }),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match.",
+    path: ["confirmPassword"],
+  });
 
 const SignUp = () => {
   const handleGoogle = async (e: { preventDefault: () => void }) => {
@@ -57,7 +59,6 @@ const SignUp = () => {
       confirmPassword: "",
     },
   });
-
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -132,7 +133,7 @@ const SignUp = () => {
                 <FormField
                   control={form.control}
                   name="email"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
                       <FormLabel className="FormLabel">Email Here</FormLabel>
                       <FormControl>
@@ -149,10 +150,20 @@ const SignUp = () => {
                           />
                         </div>
                       </FormControl>
+                      {fieldState.error && (
+                        <p
+                          style={{
+                            margin: "0",
+                            position: "relative",
+                            color: "red",
+                          }}
+                        >
+                          {fieldState.error.message}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
-
                 <FormField
                   control={form.control}
                   name="password"
@@ -181,7 +192,7 @@ const SignUp = () => {
                 <FormField
                   control={form.control}
                   name="confirmPassword"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
                       <FormLabel className="FormLabel">
                         Retype-Password Here
@@ -201,6 +212,17 @@ const SignUp = () => {
                           />
                         </div>
                       </FormControl>
+                      {fieldState.error && (
+                        <p
+                          style={{
+                            margin: "0",
+                            position: "relative",
+                            color: "red",
+                          }}
+                        >
+                          {fieldState.error.message}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
