@@ -122,7 +122,7 @@ const SignIn = () => {
                 <FormField
                   control={form.control}
                   name="email"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
                       <FormLabel className="FormLabel">Email Here</FormLabel>
                       <FormControl>
@@ -139,6 +139,17 @@ const SignIn = () => {
                           />
                         </div>
                       </FormControl>
+                      {fieldState.error && (
+                        <p
+                          style={{
+                            margin: "0",
+                            position: "relative",
+                            color: "red",
+                          }}
+                        >
+                          {fieldState.error.message}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
@@ -146,7 +157,7 @@ const SignIn = () => {
                 <FormField
                   control={form.control}
                   name="password"
-                  render={({ field }) => (
+                  render={({ field, fieldState }) => (
                     <FormItem>
                       <FormLabel className="FormLabel">Password Here</FormLabel>
                       <FormControl>
@@ -163,6 +174,17 @@ const SignIn = () => {
                           />
                         </div>
                       </FormControl>
+                      {fieldState.error && (
+                        <p
+                          style={{
+                            margin: "0",
+                            position: "relative",
+                            color: "red",
+                          }}
+                        >
+                          {fieldState.error.message}
+                        </p>
+                      )}
                     </FormItem>
                   )}
                 />
