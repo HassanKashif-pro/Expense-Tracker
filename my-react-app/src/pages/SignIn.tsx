@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig.ts";
 
@@ -67,7 +67,9 @@ const SignIn = () => {
       </div>
     );
   };
-
+  const handleSignUp = () => {
+    window.location.href = "/signup";
+  };
   return (
     <div className="Main-section">
       <div className="Side-section-wrapper">
@@ -109,11 +111,10 @@ const SignIn = () => {
               position: "absolute",
               color: "#fff",
               fontSize: "20px",
-              padding: "20px",
             }}
           >
             <h1>Welcome</h1>
-            <p>Start Managing Your Finances Today</p>
+            <p> Start Managing Your Finances Today</p>
           </div>
           <div className="Register-Forms">
             <Form {...form}>
@@ -175,12 +176,26 @@ const SignIn = () => {
                   </Button>
                 </div>
                 <OrSeparator />
-                <Button onClick={handleGoogle} className="google-btn">
+                <Button
+                  onClick={handleGoogle}
+                  className="google-btn"
+                  style={{ marginBottom: "30px" }}
+                >
                   <FontAwesomeIcon
                     icon={faGoogle}
-                    style={{ marginRight: "20px", right: "10px" }}
+                    style={{
+                      marginRight: "20px",
+                      right: "10px",
+                    }}
                   />
                   Sign in with Google
+                </Button>
+                <Button
+                  className="register-btn"
+                  style={{ marginTop: "" }}
+                  onClick={handleSignUp}
+                >
+                  SIGN UP
                 </Button>
               </form>
             </Form>
