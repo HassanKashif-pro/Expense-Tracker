@@ -4,19 +4,22 @@ import "../styles/SignIn.css";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig.ts";
+
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -28,7 +31,20 @@ const formSchema = z.object({
 });
 
 const SignIn = () => {
-  // 1. Define your form.
+  const handleGoogle = async (e) => {
+    e.preventDefault(); // Prevent default form submission if this is inside a form
+
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user; // Get the signed-in user
+      console.log("User Info:", user);
+      // You can now redirect or store the user information
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+      // Handle error (e.g., show a message to the user)
+    }
+  }; // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -159,6 +175,13 @@ const SignIn = () => {
                   </Button>
                 </div>
                 <OrSeparator />
+                <Button onClick={handleGoogle} className="google-btn">
+                  <FontAwesomeIcon
+                    icon={faGoogle}
+                    style={{ marginRight: "20px", right: "10px" }}
+                  />
+                  Sign in with Google
+                </Button>
               </form>
             </Form>
           </div>

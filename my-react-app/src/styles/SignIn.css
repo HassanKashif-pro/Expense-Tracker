@@ -147,6 +147,23 @@ body {
 .login-btn:hover {
   background-color: #2563eb;
 }
+.google-btn {
+  background-color: #ffffff;
+  color: #2563eb;
+  font-weight: bold;
+  padding: 12px 0; /* Remove side padding so it spans width fully */
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%; /* Full width of its container */
+  max-width: 350px; /* Optional: Limit width to match the image's proportions */
+  text-align: center; /* Center-align text inside the button */
+}
+.google-btn:hover {
+  background-color: #ffffffcc;
+}
 .or-separator {
   display: flex; /* Use flexbox for alignment */
   align-items: center; /* Center vertically */
