@@ -27,7 +27,9 @@ const formSchema = z.object({
     .string()
     .min(8, { message: "Password must be at least 8 characters long." })
     .max(20, { message: "Password cannot exceed 20 characters." }),
-  username: z.string(),
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters long." }),
 });
 
 interface AuthData {
@@ -49,7 +51,7 @@ const SignUp = () => {
     const data = { username, password, email };
 
     axios
-      .post("http://localhost:4000/sign-up", data, {
+      .post("http://localhost:3000/signup", data, {
         headers: {
           "Content-Type": "application/json", // Ensure you send JSON data
         },
@@ -91,7 +93,6 @@ const SignUp = () => {
   });
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
     console.log(values);
   }
   const OrSeparator = () => {
