@@ -3,7 +3,7 @@
 import "../styles/SignIn.css";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 import {
@@ -128,7 +128,7 @@ const SignIn = () => {
                       <FormControl>
                         <div className="input-wrapper">
                           <FontAwesomeIcon
-                            icon={faUser}
+                            icon={faEnvelope}
                             className="custom-icon"
                           />
                           <Input

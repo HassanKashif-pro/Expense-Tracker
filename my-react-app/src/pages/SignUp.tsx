@@ -3,9 +3,9 @@
 import "../styles/SignIn.css";
 import { Button } from "@/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -18,25 +18,55 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig.ts";
-
 import { z } from "zod";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-const formSchema = z
-  .object({
-    email: z.string().email({ message: "Invalid email address." }),
-    password: z
-      .string()
-      .min(8, { message: "Password must be at least 8 characters long." })
-      .max(20, { message: "Password cannot exceed 20 characters." }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
+const formSchema = z.object({
+  email: z.string().email({ message: "Invalid email address." }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters long." })
+    .max(20, { message: "Password cannot exceed 20 characters." }),
+  username: z.string(),
+});
+
+interface AuthData {
+  userId: string;
+  username: string;
+}
 
 const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [authData, setAuthData] = useState<AuthData | null>(null);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+
+  const signUp = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const data = { username, password, email };
+
+    axios
+      .post("http://localhost:4000/sign-up", data, {
+        headers: {
+          "Content-Type": "application/json", // Ensure you send JSON data
+        },
+      })
+      .then((response: any) => {
+        setAuthData(response.data);
+        alert("Successfully signed up!");
+      })
+      .catch((error: string) => {
+        console.error("Error signing up:", error);
+        alert("Failed to sign up. Please try again.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   const handleGoogle = async (e: { preventDefault: () => void }) => {
     e.preventDefault(); // Prevent default form submission if this is inside a form
 
@@ -56,7 +86,7 @@ const SignUp = () => {
     defaultValues: {
       email: "",
       password: "",
-      confirmPassword: "",
+      username: "",
     },
   });
   // 2. Define a submit handler.
@@ -139,7 +169,7 @@ const SignUp = () => {
                       <FormControl>
                         <div className="input-wrapper">
                           <FontAwesomeIcon
-                            icon={faUser}
+                            icon={faEnvelope}
                             className="custom-icon"
                           />
                           <Input
@@ -191,21 +221,19 @@ const SignUp = () => {
 
                 <FormField
                   control={form.control}
-                  name="confirmPassword"
+                  name="username"
                   render={({ field, fieldState }) => (
                     <FormItem>
-                      <FormLabel className="FormLabel">
-                        Retype-Password Here
-                      </FormLabel>
+                      <FormLabel className="FormLabel">Username Here</FormLabel>
                       <FormControl>
                         <div className="input-wrapper">
                           <FontAwesomeIcon
-                            icon={faLock}
+                            icon={faUser}
                             className="custom-icon"
                           />
                           <Input
-                            type="password"
-                            placeholder="Retype your password"
+                            type="username"
+                            placeholder="display name"
                             autoComplete="new-password"
                             {...field}
                             className="custom-input"
