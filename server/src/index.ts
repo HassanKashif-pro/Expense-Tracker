@@ -1,13 +1,15 @@
+import User from "../models/User";
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config(); // Ensure the .env file is correctly loaded
 const bcrypt = require("bcrypt");
-const User = require("../models/User.ts"); // Adjust this path based on your project
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const mongoURI = process.env.MONGO_URI;
+const cors = require("cors");
 
+app.use(cors());
 app.use(express.json()); // Middleware to parse JSON bodies
 
 if (!mongoURI) {
@@ -16,11 +18,16 @@ if (!mongoURI) {
 }
 
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err: any) => console.error("Failed to connect to MongoDB", err));
+  .connect(mongoURI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    const user = new User({
+      /* user data */
+    }); // This should work
+  })
+  .catch((err: any) => console.error(err));
 
-app.put("/signup", async (req: any, res: any) => {
+app.post("/signup", async (req: any, res: any) => {
   const { username, email, password } = req.body;
 
   // Validate the data
@@ -31,7 +38,7 @@ app.put("/signup", async (req: any, res: any) => {
   try {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-
+    console.log(User);
     // Create a new user instance
     const newUser = new User({ username, email, password: hashedPassword });
 
