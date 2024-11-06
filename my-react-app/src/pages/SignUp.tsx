@@ -40,49 +40,8 @@ interface AuthData {
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [authData, setAuthData] = useState<AuthData | null>(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
 
-  const signUp = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    const data = { username, password, email };
-
-    axios
-      .post("http://localhost:3000/signup", data, {
-        headers: {
-          "Content-Type": "application/json", // Ensure you send JSON data
-        },
-      })
-      .then((response: any) => {
-        setAuthData(response.data);
-        alert("Successfully signed up!");
-      })
-      .catch((error: string) => {
-        console.error("Error signing up:", error);
-        alert("Failed to sign up. Please try again.");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
-
-  const handleGoogle = async (e: { preventDefault: () => void }) => {
-    e.preventDefault(); // Prevent default form submission if this is inside a form
-
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user; // Get the signed-in user
-      console.log("User Info:", user);
-      // You can now redirect or store the user information
-    } catch (error) {
-      console.error("Error during sign-in:", error);
-      // Handle error (e.g., show a message to the user)
-    }
-  }; // 1. Define your form.
+  // Initialize form with react-hook-form and zod for validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -91,22 +50,60 @@ const SignUp = () => {
       username: "",
     },
   });
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
-  const OrSeparator = () => {
-    return (
-      <div className="or-separator">
-        <div className="line"></div>
-        <span>or</span>
-        <div className="line"></div>
-      </div>
-    );
+
+  // Function to send user data to the server
+  const signUp = async (data: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post("http://localhost:4000/signup", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setAuthData(response.data); // Store response if needed
+      alert("Successfully signed up!");
+    } catch (error) {
+      console.error(
+        "Error signing up:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to sign up. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // Handle form submission
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    signUp(values);
+  };
+
+  const handleGoogle = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("User Info:", user);
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
+  };
+
+  const OrSeparator = () => (
+    <div className="or-separator">
+      <div className="line"></div>
+      <span>or</span>
+      <div className="line"></div>
+    </div>
+  );
+
   const handleSignIn = () => {
     window.location.href = "/signin";
   };
+
   return (
     <div className="Main-section">
       <div className="Side-section-wrapper">
@@ -218,8 +215,6 @@ const SignUp = () => {
                     </FormItem>
                   )}
                 />
-                {/* CHECKING MARKS HERE */}
-
                 <FormField
                   control={form.control}
                   name="username"
@@ -255,10 +250,9 @@ const SignUp = () => {
                     </FormItem>
                   )}
                 />
-
                 <div className="form-footer">
                   <Button type="submit" className="login-btn">
-                    SignUp
+                    {isLoading ? "Signing Up..." : "Sign Up"}
                   </Button>
                 </div>
                 <OrSeparator />
@@ -276,11 +270,7 @@ const SignUp = () => {
                   />
                   Sign up with Google
                 </Button>
-                <Button
-                  className="register-btn"
-                  style={{ marginTop: "" }}
-                  onClick={handleSignIn}
-                >
+                <Button className="register-btn" onClick={handleSignIn}>
                   SIGN In
                 </Button>
               </form>
