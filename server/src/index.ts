@@ -45,10 +45,17 @@ app.post("/signup", async (req: any, res: any) => {
     // Save user to the database
     await newUser.save();
 
+    //   const userExists = await User.findOne({ email });
+    //   if (userExists) {
+    //     return res.status(400).json({ error: "User already exists" });
+    //   }
+
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Error during sign-up:", error);
-    res.status(500).json({ message: "An error occurred" });
+    {
+      console.error("Error signing up user:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
   }
 });
 

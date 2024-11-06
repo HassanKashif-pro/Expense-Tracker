@@ -56,13 +56,19 @@ const SignUp = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:4000/signup", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      setAuthData(response.data); // Store response if needed
-      alert("Successfully signed up!");
+      const response = await axios
+        .post("http://localhost:4000/signup", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          if (response.status === 201) {
+            alert("Successfully signed up!");
+            window.location.href = "/home";
+            setAuthData(response.data); // Store response if needed
+          }
+        });
     } catch (error) {
       console.error(
         "Error signing up:",
