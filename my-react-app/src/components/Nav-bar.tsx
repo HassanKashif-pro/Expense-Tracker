@@ -27,11 +27,12 @@ export default function Sidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${expanded ? "" : "sidebar--collapsed"}`}>
       <nav className="sidebar__nav">
+        {/* Header with logo and toggle button */}
         <div className="sidebar__header">
           <img
-            src="https://img.logoipsum.com/243.svg"
+            src="../public/Expenso.png"
             className={`sidebar__logo ${
               expanded ? "sidebar__logo--expanded" : ""
             }`}
@@ -46,10 +47,12 @@ export default function Sidebar({ children }: SidebarProps) {
           </button>
         </div>
 
+        {/* Sidebar context to control expansion */}
         <SidebarContext.Provider value={{ expanded }}>
           <ul className="sidebar__menu">{children}</ul>
         </SidebarContext.Provider>
 
+        {/* Footer with user information */}
         <div className="sidebar__footer">
           <img
             src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
