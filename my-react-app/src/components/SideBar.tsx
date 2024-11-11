@@ -1,10 +1,19 @@
 import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
-import { useContext, createContext, useState, ReactNode } from "react";
+import {
+  useContext,
+  createContext,
+  useState,
+  ReactNode,
+  MouseEventHandler,
+} from "react";
 import "../styles/Sidebar.css";
+import { Link } from "react-router-dom";
 
 // Define types for context and props
 interface SidebarContextProps {
   expanded: boolean;
+  activeItem: string;
+  setActiveItem: (name: string) => void;
 }
 
 interface SidebarProps {
@@ -16,6 +25,7 @@ interface SidebarItemProps {
   text: string;
   active?: boolean;
   alert?: boolean;
+  link?: string;
 }
 
 // Create the Sidebar context to share expanded state
@@ -25,6 +35,7 @@ const SidebarContext = createContext<SidebarContextProps | undefined>(
 
 export default function Sidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState(true);
+  const [activeItem, setActiveItem] = useState("");
 
   return (
     <aside className={`sidebar ${expanded ? "" : "sidebar--collapsed"}`}>
@@ -48,14 +59,16 @@ export default function Sidebar({ children }: SidebarProps) {
         </div>
 
         {/* Sidebar context to control expansion */}
-        <SidebarContext.Provider value={{ expanded }}>
+        <SidebarContext.Provider
+          value={{ expanded, activeItem, setActiveItem }}
+        >
           <ul className="sidebar__menu">{children}</ul>
         </SidebarContext.Provider>
 
         {/* Footer with user information */}
         <div className="sidebar__footer">
           <img
-            src="https://ui-avatars.com/api/?background=c7d2fe&color=3730a3&bold=true"
+            src="../public/nav-logo.png"
             alt="User Avatar"
             className="sidebar__avatar"
           />
@@ -76,11 +89,41 @@ export default function Sidebar({ children }: SidebarProps) {
   );
 }
 
-export function SidebarItem({ icon, text, active, alert }: SidebarItemProps) {
+export function SidebarItem({
+  icon,
+  text,
+  alert,
+  link,
+  active,
+}: SidebarItemProps) {
   const context = useContext(SidebarContext);
   if (!context) throw new Error("SidebarItem must be used within a Sidebar");
 
-  const { expanded } = context;
+  const { expanded, activeItem, setActiveItem } = context;
+
+  const handleItemClick = () => {
+    setActiveItem(text);
+  };
+
+  const Wrapper = ({ children }: { children: ReactNode }) =>
+    link ? (
+      link.startsWith("http") ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={handleItemClick}
+        >
+          {children}
+        </a>
+      ) : (
+        <Link to={link} onClick={handleItemClick}>
+          {children}
+        </Link>
+      )
+    ) : (
+      <div onClick={handleItemClick}>{children}</div>
+    );
 
   return (
     <li
@@ -88,24 +131,26 @@ export function SidebarItem({ icon, text, active, alert }: SidebarItemProps) {
         alert ? "sidebar__item--alert" : ""
       }`}
     >
-      <div className="sidebar__item-content">
-        {icon}
-        <span
-          className={`sidebar__item-text ${
-            expanded ? "sidebar__item-text--expanded" : ""
-          }`}
-        >
-          {text}
-        </span>
-      </div>
-      {alert && (
-        <div
-          className={`sidebar__alert-dot ${
-            expanded ? "" : "sidebar__alert-dot--collapsed"
-          }`}
-        />
-      )}
-      {!expanded && <div className="sidebar__tooltip">{text}</div>}
+      <Wrapper>
+        <div className="sidebar__item-content">
+          {icon}
+          <span
+            className={`sidebar__item-text ${
+              expanded ? "sidebar__item-text--expanded" : ""
+            }`}
+          >
+            {text}
+          </span>
+        </div>
+        {alert && (
+          <div
+            className={`sidebar__alert-dot ${
+              expanded ? "" : "sidebar__alert-dot--collapsed"
+            }`}
+          />
+        )}
+        {!expanded && <div className="sidebar__tooltip">{text}</div>}
+      </Wrapper>
     </li>
   );
 }
