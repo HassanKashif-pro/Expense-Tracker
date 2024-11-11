@@ -32,7 +32,7 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Header with logo and toggle button */}
         <div className="sidebar__header">
           <img
-            src="../public/Expenso.png"
+            src="../public/nav-logo.png"
             className={`sidebar__logo ${
               expanded ? "sidebar__logo--expanded" : ""
             }`}
