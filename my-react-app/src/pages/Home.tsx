@@ -1,14 +1,12 @@
-import { SidebarItem } from "@/components/Nav-bar";
-import Sidebar from "@/components/Nav-bar";
+import { SidebarItem } from "@/components/SideBar";
+import Sidebar from "@/components/SideBar";
 import {
   BarChart3,
-  Boxes,
+  Clock,
   LayoutDashboard,
   LifeBuoy,
-  Package,
   Receipt,
   Settings,
-  UserCircle,
 } from "lucide-react";
 
 export default function App() {
@@ -19,36 +17,29 @@ export default function App() {
           icon={<LayoutDashboard size={20} />}
           text="Dashboard"
           active={undefined}
+          link="/home"
           alert={undefined}
         />
         <SidebarItem
           icon={<BarChart3 size={20} />}
           text="Statistics"
           active
+          link="/statistics"
           alert={undefined}
         />
+
         <SidebarItem
-          icon={<UserCircle size={20} />}
-          text="Users"
+          icon={<Clock size={20} />}
+          text="History"
           active={undefined}
+          link="/history"
           alert={undefined}
-        />
-        <SidebarItem
-          icon={<Boxes size={20} />}
-          text="Inventory"
-          active={undefined}
-          alert={undefined}
-        />
-        <SidebarItem
-          icon={<Package size={20} />}
-          text="Orders"
-          alert
-          active={undefined}
         />
         <SidebarItem
           icon={<Receipt size={20} />}
-          text="Billings"
+          text="Expense"
           active={undefined}
+          link="/expense"
           alert={undefined}
         />
         <hr className="my-3" />
@@ -56,12 +47,14 @@ export default function App() {
           icon={<Settings size={20} />}
           text="Settings"
           active={undefined}
+          link="/settings"
           alert={undefined}
         />
         <SidebarItem
           icon={<LifeBuoy size={20} />}
           text="Help"
           active={undefined}
+          link="/help"
           alert={undefined}
         />
       </Sidebar>

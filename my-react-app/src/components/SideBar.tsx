@@ -89,22 +89,22 @@ export default function Sidebar({ children }: SidebarProps) {
   );
 }
 
-export function SidebarItem({
-  icon,
-  text,
-  alert,
-  link,
-  active,
-}: SidebarItemProps) {
+export function SidebarItem({ icon, text, alert, link }: SidebarItemProps) {
   const context = useContext(SidebarContext);
   if (!context) throw new Error("SidebarItem must be used within a Sidebar");
 
-  const { expanded, activeItem, setActiveItem } = context;
+  const { expanded } = context;
+  const [activeItem, setActiveItem] = useState("");
 
   const handleItemClick = () => {
     setActiveItem(text);
   };
 
+  const classNames = `sidebar__item ${
+    activeItem === text ? "sidebar__item--active" : ""
+  } ${alert ? "sidebar__item--alert" : ""}`;
+
+  // Wrapper component to handle internal/external links
   const Wrapper = ({ children }: { children: ReactNode }) =>
     link ? (
       link.startsWith("http") ? (
@@ -113,24 +113,23 @@ export function SidebarItem({
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleItemClick}
+          className="sidebar__link"
         >
           {children}
         </a>
       ) : (
-        <Link to={link} onClick={handleItemClick}>
+        <Link to={link} onClick={handleItemClick} className="sidebar__link">
           {children}
         </Link>
       )
     ) : (
-      <div onClick={handleItemClick}>{children}</div>
+      <div onClick={handleItemClick} className="sidebar__link">
+        {children}
+      </div>
     );
 
   return (
-    <li
-      className={`sidebar__item ${active ? "sidebar__item--active" : ""} ${
-        alert ? "sidebar__item--alert" : ""
-      }`}
-    >
+    <li className={classNames}>
       <Wrapper>
         <div className="sidebar__item-content">
           {icon}
