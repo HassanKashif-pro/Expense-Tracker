@@ -24,7 +24,7 @@ export default function App() {
           icon={<BarChart3 size={20} />}
           text="Statistics"
           active
-          link="/statistics"
+          link="/stats"
           alert={undefined}
         />
 

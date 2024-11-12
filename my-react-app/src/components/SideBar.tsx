@@ -68,7 +68,7 @@ export default function Sidebar({ children }: SidebarProps) {
         {/* Footer with user information */}
         <div className="sidebar__footer">
           <img
-            src="../public/nav-logo.png"
+            src="../public/bot.ico"
             alt="User Avatar"
             className="sidebar__avatar"
           />
