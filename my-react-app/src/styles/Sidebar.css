@@ -153,3 +153,16 @@
   font-size: 0.75rem;
   color: #6b7280;
 }
+/* Sidebar item link styling */
+.sidebar__link {
+  text-decoration: none;
+  color: inherit; /* Ensures it uses the same color as the surrounding item */
+  display: flex;
+  align-items: center;
+  width: 100%; /* Ensures it takes the full width of the parent element */
+}
+
+/* Optional: If there's a hover effect */
+.sidebar__link:hover {
+  color: inherit; /* Prevents color change */
+}

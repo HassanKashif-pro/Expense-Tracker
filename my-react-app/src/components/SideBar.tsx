@@ -100,33 +100,20 @@ export function SidebarItem({ icon, text, alert, link }: SidebarItemProps) {
     setActiveItem(text);
   };
 
-  const classNames = `sidebar__item ${
-    activeItem === text ? "sidebar__item--active" : ""
-  } ${alert ? "sidebar__item--alert" : ""}`;
-
-  // Wrapper component to handle internal/external links
   const Wrapper = ({ children }: { children: ReactNode }) =>
     link ? (
-      link.startsWith("http") ? (
-        <a
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleItemClick}
-          className="sidebar__link"
-        >
-          {children}
-        </a>
-      ) : (
-        <Link to={link} onClick={handleItemClick} className="sidebar__link">
-          {children}
-        </Link>
-      )
+      <Link to={link} onClick={handleItemClick} className="sidebar__link">
+        {children}
+      </Link>
     ) : (
       <div onClick={handleItemClick} className="sidebar__link">
         {children}
       </div>
     );
+
+  const classNames = `sidebar__item ${
+    activeItem === text ? "sidebar__item--active" : ""
+  } ${alert ? "sidebar__item--alert" : ""}`;
 
   return (
     <li className={classNames}>
