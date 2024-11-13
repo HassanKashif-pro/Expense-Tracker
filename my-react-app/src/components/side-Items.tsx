@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 const sidebarItems = [
+  { type: "divider" },
   { icon: <LayoutDashboard size={20} />, text: "Dashboard", link: "/home" },
   { icon: <BarChart3 size={20} />, text: "Statistics", link: "/stats" },
   { icon: <Clock size={20} />, text: "History", link: "/history" },
