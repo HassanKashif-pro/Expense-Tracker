@@ -8,22 +8,29 @@ import {
 import Home from "./pages/Home";
 import Expense from "./pages/Expense";
 import History from "./pages/History";
-import Signin from "./pages/SignIn.tsx";
-import Signup from "./pages/SignUp.tsx";
-import Stats from "./pages/Stats.tsx";
+import Signin from "./pages/SignIn";
+import Signup from "./pages/SignUp";
+import Stats from "./pages/Stats";
+import Layout from "./Layout";
+import IloveBalls from "./components/side-Items";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Define your routes here */}
-        <Route path="/" element={<Navigate to="/signin" />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/expense" element={<Expense />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/stats" element={<Stats />} />
+        {/* Routes that don't require the sidebar */}
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+
+        {/* Routes that include the sidebar */}
+        <Route element={<IloveBalls />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/expense" element={<Expense />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/stats" element={<Stats />} />
+        </Route>
+
+        {/* Redirect any unknown routes to sign-in */}
         <Route path="*" element={<Navigate to="/signin" />} />
       </Routes>
     </Router>
