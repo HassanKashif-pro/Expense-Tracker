@@ -74,7 +74,6 @@
 }
 
 .sidebar__item--active {
-  margin: 0;
   background: linear-gradient(to top right, #c7d2fe, #dbeafe);
   color: #4f46e5;
 }

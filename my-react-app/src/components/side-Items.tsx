@@ -1,5 +1,7 @@
+import React from "react";
 import { SidebarItem } from "@/components/SideBar";
 import Sidebar from "@/components/SideBar";
+import { useLocation } from "react-router-dom";
 import {
   BarChart3,
   Clock,
@@ -9,54 +11,33 @@ import {
   Settings,
 } from "lucide-react";
 
+const sidebarItems = [
+  { icon: <LayoutDashboard size={20} />, text: "Dashboard", link: "/home" },
+  { icon: <BarChart3 size={20} />, text: "Statistics", link: "/stats" },
+  { icon: <Clock size={20} />, text: "History", link: "/history" },
+  { icon: <Receipt size={20} />, text: "Expense", link: "/expense" },
+  { type: "divider" },
+  { icon: <Settings size={20} />, text: "Settings", link: "/settings" },
+  { icon: <LifeBuoy size={20} />, text: "Help", link: "/help" },
+];
+
 export default function IloveBalls() {
   return (
     <main className="App">
       <Sidebar>
-        <SidebarItem
-          icon={<LayoutDashboard size={20} />}
-          text="Dashboard"
-          active={undefined}
-          link="/home"
-          alert={undefined}
-        />
-        <SidebarItem
-          icon={<BarChart3 size={20} />}
-          text="Statistics"
-          active
-          link="/stats"
-          alert={undefined}
-        />
-
-        <SidebarItem
-          icon={<Clock size={20} />}
-          text="History"
-          active={undefined}
-          link="/history"
-          alert={undefined}
-        />
-        <SidebarItem
-          icon={<Receipt size={20} />}
-          text="Expense"
-          active={undefined}
-          link="/expense"
-          alert={undefined}
-        />
-        <hr className="my-3" />
-        <SidebarItem
-          icon={<Settings size={20} />}
-          text="Settings"
-          active={undefined}
-          link="/settings"
-          alert={undefined}
-        />
-        <SidebarItem
-          icon={<LifeBuoy size={20} />}
-          text="Help"
-          active={undefined}
-          link="/help"
-          alert={undefined}
-        />
+        {sidebarItems.map((item, index) => {
+          if (item.type === "divider") {
+            return <hr key={index} className="my-3" />;
+          }
+          return (
+            <SidebarItem
+              key={index}
+              icon={item.icon}
+              text={item.text}
+              link={item.link}
+            />
+          );
+        })}
       </Sidebar>
     </main>
   );

@@ -7,7 +7,7 @@ import {
   MouseEventHandler,
 } from "react";
 import "../styles/Sidebar.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Define types for context and props
 interface SidebarContextProps {
@@ -26,6 +26,7 @@ interface SidebarItemProps {
   active?: boolean;
   alert?: boolean;
   link?: string;
+  onClick: () => void;
 }
 
 // Create the Sidebar context to share expanded state
@@ -40,7 +41,6 @@ export default function Sidebar({ children }: SidebarProps) {
   return (
     <aside className={`sidebar ${expanded ? "" : "sidebar--collapsed"}`}>
       <nav className="sidebar__nav">
-        {/* Header with logo and toggle button */}
         <div className="sidebar__header">
           <img
             src="../public/nav-logo.png"
@@ -89,35 +89,19 @@ export default function Sidebar({ children }: SidebarProps) {
   );
 }
 
-export function SidebarItem({ icon, text, alert, link }: SidebarItemProps) {
-  const context = useContext(SidebarContext);
-  if (!context) throw new Error("SidebarItem must be used within a Sidebar");
+export function SidebarItem({ icon, text, alert, link }: any) {
+  const { expanded }: any = useContext(SidebarContext);
+  const location = useLocation(); // Get the current route path
 
-  const { expanded } = context;
-  const [activeItem, setActiveItem] = useState("");
-
-  const handleItemClick = () => {
-    setActiveItem(text);
-  };
-
-  const Wrapper = ({ children }: { children: ReactNode }) =>
-    link ? (
-      <Link to={link} onClick={handleItemClick} className="sidebar__link">
-        {children}
-      </Link>
-    ) : (
-      <div onClick={handleItemClick} className="sidebar__link">
-        {children}
-      </div>
-    );
-
-  const classNames = `sidebar__item ${
-    activeItem === text ? "sidebar__item--active" : ""
-  } ${alert ? "sidebar__item--alert" : ""}`;
+  const isActive = location.pathname === link; // Check if the item is active
 
   return (
-    <li className={classNames}>
-      <Wrapper>
+    <li
+      className={`sidebar__item ${isActive ? "sidebar__item--active" : ""} ${
+        alert ? "sidebar__item--alert" : ""
+      }`}
+    >
+      <Link to={link} className="sidebar__link">
         <div className="sidebar__item-content">
           {icon}
           <span
@@ -136,7 +120,7 @@ export function SidebarItem({ icon, text, alert, link }: SidebarItemProps) {
           />
         )}
         {!expanded && <div className="sidebar__tooltip">{text}</div>}
-      </Wrapper>
+      </Link>
     </li>
   );
 }
