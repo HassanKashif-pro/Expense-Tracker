@@ -1,7 +1,7 @@
 import React from "react";
 import { SidebarItem } from "@/components/SideBar";
 import Sidebar from "@/components/SideBar";
-import { useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {
   BarChart3,
   Clock,
@@ -25,21 +25,23 @@ const sidebarItems = [
 export default function IloveBalls() {
   return (
     <main className="App">
-      <Sidebar>
-        {sidebarItems.map((item, index) => {
-          if (item.type === "divider") {
-            return <hr key={index} className="my-3" />;
-          }
-          return (
+      <Sidebar className="sidebar">
+        {sidebarItems.map((item, index) =>
+          item.type === "divider" ? (
+            <hr key={index} className="my-3" />
+          ) : (
             <SidebarItem
               key={index}
               icon={item.icon}
               text={item.text}
               link={item.link}
             />
-          );
-        })}
+          )
+        )}
       </Sidebar>
+      <div className="content">
+        <Outlet /> {/* This will render the current route's component */}
+      </div>
     </main>
   );
 }

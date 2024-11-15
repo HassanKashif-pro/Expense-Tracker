@@ -1,0 +1,23 @@
+.main-home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 320px;
+}
+.header-main {
+  top: 0;
+  width: 100%;
+  height: 87px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 0 20px;
+  position: relative;
+}
+
+/* Optional: Adjusts layout when sidebar is present */
+.content {
+  display: flex;
+  position: relative;
+}
