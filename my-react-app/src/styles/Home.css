@@ -1,14 +1,17 @@
 .main-home {
+  background-color: #f4f5f7;
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
   margin-left: 320px;
 }
 .header-main {
   top: 0;
   width: 100%;
+  display: grid;
   height: 87px;
-  display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: #ffffff;
@@ -20,4 +23,91 @@
 .content {
   display: flex;
   position: relative;
+} /* General dashboard styling */
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background-color: #f4f5f7;
+  font-family: Arial, sans-serif;
+}
+
+/* Card styling */
+.card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+/* Top row */
+.top-row {
+  display: flex;
+  gap: 16px;
+}
+
+.top-row .card {
+  flex: 1;
+}
+
+/* Middle row */
+.middle-row {
+  display: flex;
+  gap: 16px;
+}
+
+.portfolio-analytics {
+  flex: 2;
+}
+
+.your-cards {
+  flex: 1;
+  background-color: #2563eb; /* blue-600 */
+  color: #fff;
+}
+
+/* Bottom row */
+.bottom-row {
+  display: flex;
+  gap: 16px;
+}
+
+.recent-transactions {
+  flex: 2;
+}
+
+.stocks-of-the-day {
+  flex: 1;
+}
+
+/* Specific card styles */
+.balance,
+.incomes,
+.expenses {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.portfolio-analytics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recent-transactions,
+.stocks-of-the-day {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Optional media query for responsive adjustments */
+@media (max-width: 768px) {
+  .top-row,
+  .middle-row,
+  .bottom-row {
+    flex-direction: column;
+  }
 }
