@@ -1,6 +1,8 @@
 // Home.js
 import React from "react";
 import "../styles/Home.css";
+import { LineChart_1 } from "@/components/ui/lineChart";
+import { ChartArea, ChartBar } from "lucide-react";
 
 export default function Home() {
   console.log("Home component rendered"); // Check console output
@@ -25,9 +27,46 @@ export default function Home() {
       <div className="content">
         <div className="dashboard">
           <div className="top-row">
-            <div className="card balance">Balance: $5,502.45</div>
-            <div className="card incomes">Incomes: $9,450.00</div>
-            <div className="card expenses">Expenses: $3,945.55</div>
+            <div className="card balance">
+              <p style={{ color: "#598EFF", margin: "0" }}>Balance</p>
+              <p
+                style={{
+                  color: "#2260FF",
+                  fontSize: "30px",
+                  margin: "0",
+                  marginTop: "5px",
+                  font: "100",
+                }}
+              >
+                $5,502.45
+              </p>
+            </div>
+            <div className="card incomes">
+              <p style={{ color: "#598EFF", margin: "0" }}>Income</p>
+              <p
+                style={{
+                  fontSize: "30px",
+                  margin: "0",
+                  marginTop: "5px",
+                  font: "100",
+                }}
+              >
+                $2,502.45
+              </p>
+            </div>
+            <div className="card expenses">
+              <p style={{ color: "#598EFF", margin: "0" }}>Expenses</p>
+              <p
+                style={{
+                  fontSize: "30px",
+                  margin: "0",
+                  marginTop: "5px",
+                  font: "100",
+                }}
+              >
+                $1,502.45
+              </p>
+            </div>
           </div>
 
           <div className="middle-row">

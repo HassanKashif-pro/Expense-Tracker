@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: #ffffff;
+  border-bottom: 2px solid rgba(37, 100, 235, 0.5);
   padding: 0 20px;
   position: relative;
 }
@@ -86,7 +87,7 @@
 .balance,
 .incomes,
 .expenses {
-  font-size: 24px;
+  width: 285px;
   font-weight: bold;
 }
 
