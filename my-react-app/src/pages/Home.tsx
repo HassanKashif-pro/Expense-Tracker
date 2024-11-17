@@ -1,29 +1,14 @@
 // Home.js
 import React from "react";
 import "../styles/Home.css";
-import { LineChart_1 } from "@/components/ui/lineChart";
-import { ChartArea, ChartBar } from "lucide-react";
+import { Component } from "@/components/ui/lineChart";
+import Header from "@/components/Header";
 
 export default function Home() {
   console.log("Home component rendered"); // Check console output
   return (
     <div className="main-home">
-      <header className="header-main">
-        <p
-          style={{
-            color: "#2260FF",
-            fontSize: "28px",
-            fontWeight: "700",
-            margin: "0",
-            marginTop: "25px",
-          }}
-        >
-          Welcome,
-        </p>
-        <p style={{ color: "#598EFF", margin: "0", paddingBottom: "20px" }}>
-          Let's check your expenses today !
-        </p>
-      </header>
+      <Header />
       <div className="content">
         <div className="dashboard">
           <div className="top-row">
@@ -70,7 +55,9 @@ export default function Home() {
           </div>
 
           <div className="middle-row">
-            <div className="card portfolio-analytics">Portfolio Analytics</div>
+            <div className="card portfolio-analytics">
+              <Component />
+            </div>
             <div className="card your-cards">Your Cards</div>
           </div>
 

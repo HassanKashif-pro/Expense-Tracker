@@ -20,11 +20,13 @@
   position: relative;
 }
 
-/* Optional: Adjusts layout when sidebar is present */
 .content {
   display: flex;
-  position: relative;
-} /* General dashboard styling */
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -34,7 +36,6 @@
   font-family: Arial, sans-serif;
 }
 
-/* Card styling */
 .card {
   background-color: #ffffff;
   padding: 20px;
@@ -43,7 +44,6 @@
   color: #333;
 }
 
-/* Top row */
 .top-row {
   display: flex;
   gap: 16px;
@@ -51,28 +51,26 @@
 
 .top-row .card {
   flex: 1;
+  flex-basis: 285px; /* Ensures consistent width */
 }
 
-/* Middle row */
-.middle-row {
+.middle-row,
+.bottom-row {
   display: flex;
   gap: 16px;
 }
 
 .portfolio-analytics {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .your-cards {
   flex: 1;
-  background-color: #2563eb; /* blue-600 */
+  background-color: #2563eb;
   color: #fff;
-}
-
-/* Bottom row */
-.bottom-row {
-  display: flex;
-  gap: 16px;
 }
 
 .recent-transactions {
@@ -83,28 +81,6 @@
   flex: 1;
 }
 
-/* Specific card styles */
-.balance,
-.incomes,
-.expenses {
-  width: 285px;
-  font-weight: bold;
-}
-
-.portfolio-analytics {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.recent-transactions,
-.stocks-of-the-day {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* Optional media query for responsive adjustments */
 @media (max-width: 768px) {
   .top-row,
   .middle-row,
