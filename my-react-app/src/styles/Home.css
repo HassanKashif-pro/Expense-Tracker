@@ -54,8 +54,7 @@
   flex-basis: 285px; /* Ensures consistent width */
 }
 
-.middle-row,
-.bottom-row {
+.middle-row {
   display: flex;
   gap: 16px;
 }
@@ -71,6 +70,7 @@
   flex: 1;
   background-color: #2563eb;
   color: #fff;
+  font-size: large;
 }
 
 .recent-transactions {

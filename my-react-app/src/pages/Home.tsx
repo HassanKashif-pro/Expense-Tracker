@@ -58,12 +58,7 @@ export default function Home() {
             <div className="card portfolio-analytics">
               <Component />
             </div>
-            <div className="card your-cards">Your Cards</div>
-          </div>
-
-          <div className="bottom-row">
-            <div className="card recent-transactions">Recent Transactions</div>
-            <div className="card stocks-of-the-day">Stocks of the Day</div>
+            <div className="card your-cards">Recent Transactions</div>
           </div>
         </div>
       </div>
