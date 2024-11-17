@@ -11,7 +11,7 @@ import History from "./pages/History";
 import Signin from "./pages/SignIn";
 import Signup from "./pages/SignUp";
 import Stats from "./pages/Stats";
-import CombinedComponent from "./components/CombinedComponent";
+import IloveBalls from "./components/side-Items";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* Routes that include the sidebar */}
-        <Route element={<CombinedComponent />}>
+        <Route element={<IloveBalls />}>
           <Route path="/home" element={<Home />} />
           <Route path="/expense" element={<Expense />} />
           <Route path="/history" element={<History />} />
