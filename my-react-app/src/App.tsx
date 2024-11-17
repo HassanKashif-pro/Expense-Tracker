@@ -10,7 +10,7 @@ import Expense from "./pages/Expense";
 import History from "./pages/History";
 import Signin from "./pages/SignIn";
 import Signup from "./pages/SignUp";
-import Stats from "./pages/Stats";
+import Income from "./pages/Income";
 import IloveBalls from "./components/side-Items";
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/expense" element={<Expense />} />
           <Route path="/history" element={<History />} />
-          <Route path="/stats" element={<Stats />} />
+          <Route path="/income" element={<Income />} />
         </Route>
 
         {/* Redirect any unknown routes to sign-in */}

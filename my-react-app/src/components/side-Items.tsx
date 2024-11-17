@@ -13,9 +13,9 @@ import {
 
 const sidebarItems = [
   { icon: <LayoutDashboard size={20} />, text: "Dashboard", link: "/home" },
-  { icon: <BarChart3 size={20} />, text: "Statistics", link: "/stats" },
-  { icon: <Clock size={20} />, text: "History", link: "/history" },
+  { icon: <BarChart3 size={20} />, text: "Income", link: "/income" },
   { icon: <Receipt size={20} />, text: "Expense", link: "/expense" },
+  { icon: <Clock size={20} />, text: "History", link: "/history" },
   { type: "divider" },
   { icon: <Settings size={20} />, text: "Settings", link: "/settings" },
   { icon: <LifeBuoy size={20} />, text: "Help", link: "/help" },
