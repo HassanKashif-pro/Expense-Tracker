@@ -14,3 +14,38 @@
   font-size: 30px;
   color: #2260ff;
 }
+.total-card {
+  font-family: "Podkova", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-size: 30px;
+  color: #2260ff;
+  justify-content: center;
+  display: flex;
+  background-color: #74609b;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+.cards-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.form-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
+  width: 30%;
+}
+.income-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333;
+  width: 70%;
+}
