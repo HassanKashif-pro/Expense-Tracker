@@ -9,12 +9,12 @@ function Header() {
           fontSize: "28px",
           fontWeight: "700",
           margin: "0",
-          marginTop: "25px",
+          marginTop: "15px",
         }}
       >
         Welcome,
       </p>
-      <p style={{ color: "#598EFF", margin: "0", paddingBottom: "20px" }}>
+      <p style={{ color: "#598EFF", margin: "0", paddingBottom: "0px" }}>
         Let's check your expenses today !
       </p>
     </header>

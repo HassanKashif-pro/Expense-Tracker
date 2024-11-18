@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .expense-main {
   background-color: #f4f5f7;
   flex: 1;
@@ -11,19 +14,18 @@
   font-family: "Podkova", serif;
   font-optical-sizing: auto;
   font-weight: 800;
-  font-size: 30px;
+  font-size: 25px;
   color: #2260ff;
 }
 .total-card {
   font-family: "Podkova", serif;
   font-optical-sizing: auto;
   font-weight: 800;
-  font-size: 30px;
+  font-size: 22px;
   color: #2260ff;
   justify-content: center;
   display: flex;
-  background-color: #74609b;
-  padding: 20px;
+  margin-bottom: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #333;
@@ -48,4 +50,9 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #333;
   width: 70%;
+}
+.input-forms {
+  margin-bottom: 10px;
+  height: 30px;
+  width: 90%;
 }
