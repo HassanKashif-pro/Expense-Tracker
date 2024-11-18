@@ -9,7 +9,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -21,12 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
+import axios from "axios";
 
 // Form schema definition
 const formSchema = z.object({
-  Title: z.string().min(1, "Title is required"),
-  Description: z.string().min(1, "Description is required"),
-  Type: z.enum([
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  type: z.enum([
     "Investment",
     "Salary",
     "Other",
@@ -34,28 +35,54 @@ const formSchema = z.object({
     "Bank Transfer",
     "Stocks",
   ]),
-  Amount: z.number().min(0, "Amount must be a positive number"),
-  Date: z.date().refine((date) => !isNaN(date.getTime()), {
+  amount: z.preprocess(
+    (value) => parseFloat(value as string),
+    z.number().positive("Amount must be positive")
+  ),
+  date: z.string().refine((value) => !isNaN(new Date(value).getTime()), {
     message: "Invalid date",
   }),
 });
 
 function Income() {
-  // Initialize form with useForm hook
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      Title: "",
-      Description: "",
-      Type: "Other",
-      Amount: 0,
-      Date: new Date(),
+      title: "",
+      amount: 0,
+      type: "Other",
+      description: "",
+      date: new Date().toISOString().split("T")[0], // Default to today's date
     },
   });
 
-  // Handle form submission
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/income",
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 201) {
+        alert("Income successfully recorded!");
+        window.location.href = "/home";
+      }
+    } catch (error: any) {
+      console.error(
+        "Error recording income:",
+        error.response ? error.response.data : error.message
+      );
+      alert("Failed to record income. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,7 +101,7 @@ function Income() {
                 {/* Title Field */}
                 <FormField
                   control={form.control}
-                  name="Title"
+                  name="title"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -92,7 +119,7 @@ function Income() {
                 {/* Description Field */}
                 <FormField
                   control={form.control}
-                  name="Description"
+                  name="description"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -110,7 +137,7 @@ function Income() {
                 {/* Amount Field */}
                 <FormField
                   control={form.control}
-                  name="Amount"
+                  name="amount"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -129,75 +156,44 @@ function Income() {
                 {/* Date Field */}
                 <FormField
                   control={form.control}
-                  name="Date"
+                  name="date"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          className="input-forms"
-                          type="date"
-                          value={field.value.toISOString().split("T")[0]} // Format date for input
-                          onChange={(e) =>
-                            field.onChange(new Date(e.target.value))
-                          }
-                        />
+                        <Input className="input-forms" type="date" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 {/* Type Field (Dropdown) */}
                 <FormField
                   control={form.control}
-                  name="Type"
+                  name="type"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
-                          className="custom-select" // Custom styling for the Select component
                         >
-                          <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                          <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select type" />
                           </SelectTrigger>
-                          <SelectContent className="bg-white border border-gray-300 shadow-lg rounded-md">
-                            <SelectItem
-                              value="Investment"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Investment
-                            </SelectItem>
-                            <SelectItem
-                              value="Salary"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Salary
-                            </SelectItem>
-                            <SelectItem
-                              value="Other"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Other
-                            </SelectItem>
-                            <SelectItem
-                              value="Savings"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Savings
-                            </SelectItem>
-                            <SelectItem
-                              value="Bank Transfer"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Bank Transfer
-                            </SelectItem>
-                            <SelectItem
-                              value="Stocks"
-                              className="hover:bg-gray-100 px-4 py-2"
-                            >
-                              Stocks
-                            </SelectItem>
+                          <SelectContent>
+                            {[
+                              "Investment",
+                              "Salary",
+                              "Other",
+                              "Savings",
+                              "Bank Transfer",
+                              "Stocks",
+                            ].map((type) => (
+                              <SelectItem key={type} value={type}>
+                                {type}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -207,8 +203,8 @@ function Income() {
                 />
 
                 {/* Submit Button */}
-                <Button type="submit" className="w-full">
-                  Submit
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Submitting..." : "Submit"}
                 </Button>
               </form>
             </Form>
