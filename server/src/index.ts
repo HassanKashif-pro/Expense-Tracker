@@ -1,3 +1,5 @@
+import Expense from "../models/ExpenseSchema";
+import Income from "../models/IncomeSchema";
 import User from "../models/User";
 const express = require("express");
 const mongoose = require("mongoose");
@@ -21,9 +23,9 @@ mongoose
   .connect(mongoURI)
   .then(() => {
     console.log("Connected to MongoDB");
-    const user = new User({
-      /* user data */
-    }); // This should work
+    const user = new User({}); // This should work
+    const income = new Income({}); // This should work
+    const expense = new Expense({}); // This should work
   })
   .catch((err: any) => console.error(err));
 
@@ -45,10 +47,10 @@ app.post("/signup", async (req: any, res: any) => {
     // Save user to the database
     await newUser.save();
 
-    //   const userExists = await User.findOne({ email });
-    //   if (userExists) {
-    //     return res.status(400).json({ error: "User already exists" });
-    //   }
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      return res.status(400).json({ error: "User already exists" });
+    }
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
@@ -58,7 +60,6 @@ app.post("/signup", async (req: any, res: any) => {
     }
   }
 });
-
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
