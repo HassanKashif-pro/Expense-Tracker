@@ -1,8 +1,9 @@
 import Header from "@/components/Header";
 import "../styles/Home.css";
 import "../styles/expense.css";
-import { z } from "zod";
+import { date, z } from "zod";
 import { useForm } from "react-hook-form";
+import { Popover, PopoverTrigger, PopoverContent } from "./Popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -22,6 +23,8 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import axios from "axios";
+import { Calendar, CalendarIcon } from "lucide-react";
+import { format } from "path";
 
 // Form schema definition
 const formSchema = z.object({
@@ -158,10 +161,31 @@ function Income() {
                   control={form.control}
                   name="date"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input className="input-forms" type="date" {...field} />
-                      </FormControl>
+                    <FormItem className="flex flex-col">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button variant="outline">
+                              {field.value ? (
+                                format(new date(field.value)) // Ensures `field.value` is a valid date
+                              ) : (
+                                <span>Pick a date</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            onSelect={(date: any) => field.onChange(date)} // Ensure onChange works as expected
+                            disabled={(date: any) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
                       <FormMessage />
                     </FormItem>
                   )}
