@@ -1,19 +1,19 @@
-const IncomeSchema = require("../models/IncomeSchema");
+import { Income } from "../models/IncomeSchema";
 
 export const addIncome = async (req: any, res: any) => {
-  const { title, amount, category, description, date } = req.body;
+  const { title, amount, type, description, date } = req.body;
 
-  const income = IncomeSchema({
+  const income = new Income({
     title,
     amount,
-    category,
+    type,
     description,
     date,
   });
 
   try {
     //validations
-    if (!title || !category || !description || !date) {
+    if (!title || !type || !description || !date) {
       return res.status(400).json({ message: "All fields are required!" });
     }
     if (amount <= 0) {
@@ -32,7 +32,7 @@ export const addIncome = async (req: any, res: any) => {
 
 export const getIncomes = async (req: any, res: any) => {
   try {
-    const incomes = await IncomeSchema.find().sort({ createdAt: -1 });
+    const incomes = await Income.find().sort({ createdAt: -1 });
     res.status(200).json(incomes);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
@@ -41,7 +41,7 @@ export const getIncomes = async (req: any, res: any) => {
 
 export const deleteIncome = async (req: any, res: any) => {
   const { id } = req.params;
-  IncomeSchema.findByIdAndDelete(id)
+  Income.findByIdAndDelete(id)
     .then(() => {
       res.status(200).json({ message: "Income Deleted" });
     })
