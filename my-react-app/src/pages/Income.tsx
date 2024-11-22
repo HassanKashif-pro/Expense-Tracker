@@ -1,9 +1,13 @@
 import Header from "@/components/Header";
 import "../styles/Home.css";
 import "../styles/expense.css";
-import { date, z } from "zod";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Popover, PopoverTrigger, PopoverContent } from "./Popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "../components/ui/popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -23,8 +27,9 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import axios from "axios";
-import { Calendar, CalendarIcon } from "lucide-react";
-import { format } from "path";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns"; // Ensure this is imported correctly
+import { Calendar } from "@/components/ui/calendar";
 
 // Form schema definition
 const formSchema = z.object({
@@ -42,9 +47,20 @@ const formSchema = z.object({
     (value) => parseFloat(value as string),
     z.number().positive("Amount must be positive")
   ),
-  date: z.string().refine((value) => !isNaN(new Date(value).getTime()), {
-    message: "Invalid date",
-  }),
+  date: z
+    .string()
+    .refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), {
+      message: "Date must be in YYYY-MM-DD format",
+    })
+    .refine(
+      (value) => {
+        const date = new Date(value);
+        return !isNaN(date.getTime());
+      },
+      {
+        message: "Invalid date",
+      }
+    ),
 });
 
 function Income() {
@@ -118,7 +134,6 @@ function Income() {
                     </FormItem>
                   )}
                 />
-
                 {/* Description Field */}
                 <FormField
                   control={form.control}
@@ -136,7 +151,6 @@ function Income() {
                     </FormItem>
                   )}
                 />
-
                 {/* Amount Field */}
                 <FormField
                   control={form.control}
@@ -155,7 +169,6 @@ function Income() {
                     </FormItem>
                   )}
                 />
-
                 {/* Date Field */}
                 <FormField
                   control={form.control}
@@ -165,9 +178,9 @@ function Income() {
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
-                            <Button variant="outline">
+                            <Button variant="outline" aria-label="Pick a date">
                               {field.value ? (
-                                format(new date(field.value)) // Ensures `field.value` is a valid date
+                                format(new Date(field.value), "PPP") // Display a human-readable format
                               ) : (
                                 <span>Pick a date</span>
                               )}
@@ -178,11 +191,15 @@ function Income() {
                         <PopoverContent className="w-auto p-0" align="start">
                           <Calendar
                             mode="single"
-                            onSelect={(date: any) => field.onChange(date)} // Ensure onChange works as expected
-                            disabled={(date: any) =>
-                              date > new Date() || date < new Date("1900-01-01")
+                            selected={
+                              field.value ? new Date(field.value) : undefined
                             }
-                            initialFocus
+                            onSelect={(date) => {
+                              // Ensure field value is updated as an ISO string
+                              field.onChange(
+                                date ? date.toISOString().split("T")[0] : ""
+                              );
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
@@ -225,7 +242,6 @@ function Income() {
                     </FormItem>
                   )}
                 />
-
                 {/* Submit Button */}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Submitting..." : "Submit"}
