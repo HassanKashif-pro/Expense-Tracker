@@ -23,8 +23,7 @@ body {
   box-sizing: border-box; /* Include padding in width/height */
 }
 .Register-Forms {
-  margin-top: 50px;
-  margin-top: 130px;
+  margin-top: 70px;
   display: flex;
 }
 .Side-section-left,
@@ -68,20 +67,6 @@ body {
 .Side-section-right {
   background: transparent; /* Red background */
 }
-
-.welcome-title {
-  font-size: 2rem;
-  color: #ffffff;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.sub-title {
-  font-size: 1rem;
-  color: #d1d5db;
-  margin-bottom: 100px;
-}
-
 .FormLabel {
   font-weight: 500;
   color: #333;
@@ -90,13 +75,12 @@ body {
 
 .custom-input {
   position: relative;
-  width: 92%;
+  width: 100%;
   padding: 12px;
   border-radius: 6px;
   border: 1px solid #d1d5db;
   background-color: #f0f5ff;
   font-size: 1rem;
-  margin-bottom: 0px;
   padding-left: 40px;
   padding-right: 100px;
   font-size: 16px;
