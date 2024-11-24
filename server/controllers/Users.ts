@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 import User from "../models/UserSchema";
+const jwt = require("jsonwebtoken");
 import { Request, Response } from "express";
 
 // Sign Up Function
@@ -44,7 +45,26 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
 
 // Example placeholder for the Sign In function
 export const signIn = async (req: Request, res: Response): Promise<void> => {
-  res
-    .status(501)
-    .json({ message: "Sign In functionality not implemented yet." });
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(400).json({ message: "User not found!" });
+      return;
+    }
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      res.status(400).json({ message: "Invalid password!" });
+      return;
+    }
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
+      expiresIn: "1h",
+    });
+
+    res.json({ token });
+  } catch (error) {
+    console.error("Error during user sign in:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
 };
