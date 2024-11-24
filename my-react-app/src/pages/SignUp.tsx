@@ -6,19 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import axios from "axios";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig.ts";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 const formSchema = z.object({
@@ -152,135 +144,102 @@ const SignUp = () => {
         <div className="Side-section-right">
           <div
             style={{
-              top: "0",
+              top: "5px",
+              marginRight: "90px",
               position: "absolute",
               color: "#fff",
-              fontSize: "20px",
+              fontSize: "15px",
             }}
           >
-            <h1>Welcome</h1>
+            <h1 style={{ fontWeight: "600", fontSize: "35px" }}>Welcome</h1>
             <p> Start Managing Your Finances Today</p>
           </div>
           <div className="Register-Forms">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field, fieldState }) => (
-                    <FormItem>
-                      <FormLabel className="FormLabel">Email Here</FormLabel>
-                      <FormControl>
-                        <div className="input-wrapper">
-                          <FontAwesomeIcon
-                            icon={faEnvelope}
-                            className="custom-icon"
-                          />
-                          <Input
-                            type="email"
-                            placeholder="example@email.com"
-                            {...field}
-                            className="custom-input"
-                          />
-                        </div>
-                      </FormControl>
-                      {fieldState.error && (
-                        <p
-                          style={{
-                            margin: "0",
-                            position: "relative",
-                            color: "red",
-                          }}
-                        >
-                          {fieldState.error.message}
-                        </p>
-                      )}
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="FormLabel">Password Here</FormLabel>
-                      <FormControl>
-                        <div className="input-wrapper">
-                          <FontAwesomeIcon
-                            icon={faLock}
-                            className="custom-icon"
-                          />
-                          <Input
-                            type="password"
-                            placeholder="at least 8 characters"
-                            {...field}
-                            className="custom-input"
-                          />
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field, fieldState }) => (
-                    <FormItem>
-                      <FormLabel className="FormLabel">Username Here</FormLabel>
-                      <FormControl>
-                        <div className="input-wrapper">
-                          <FontAwesomeIcon
-                            icon={faUser}
-                            className="custom-icon"
-                          />
-                          <Input
-                            type="username"
-                            placeholder="display name"
-                            autoComplete="new-password"
-                            {...field}
-                            className="custom-input"
-                          />
-                        </div>
-                      </FormControl>
-                      {fieldState.error && (
-                        <p
-                          style={{
-                            margin: "0",
-                            position: "relative",
-                            color: "red",
-                          }}
-                        >
-                          {fieldState.error.message}
-                        </p>
-                      )}
-                    </FormItem>
-                  )}
-                />
-                <div className="form-footer">
-                  <Button type="submit" className="login-btn">
-                    {isLoading ? "Signing Up..." : "Sign Up"}
-                  </Button>
-                </div>
-                <OrSeparator />
-                <Button
-                  onClick={handleGoogle}
-                  className="google-btn"
-                  style={{ marginBottom: "30px" }}
-                >
-                  <FontAwesomeIcon
-                    icon={faGoogle}
-                    style={{
-                      marginRight: "20px",
-                      right: "10px",
-                    }}
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="form-item">
+                <label className="FormLabel" htmlFor="email">
+                  Email Here
+                </label>
+                <div className="input-wrapper">
+                  <FontAwesomeIcon icon={faEnvelope} className="custom-icon" />
+                  <input
+                    type="email"
+                    placeholder="example@email.com"
+                    className="custom-input"
+                    {...form.register("email")}
                   />
-                  Sign up with Google
-                </Button>
-                <Button className="register-btn" onClick={handleSignIn}>
-                  SIGN In
-                </Button>
-              </form>
-            </Form>
+                </div>
+                {form.formState.errors.email && (
+                  <p className="error-message">
+                    {form.formState.errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="form-item">
+                <label className="FormLabel" htmlFor="password">
+                  Password Here
+                </label>
+                <div className="input-wrapper">
+                  <FontAwesomeIcon icon={faLock} className="custom-icon" />
+                  <input
+                    type="password"
+                    placeholder="at least 8 characters"
+                    className="custom-input"
+                    {...form.register("password")}
+                  />
+                </div>
+                {form.formState.errors.password && (
+                  <p className="error-message">
+                    {form.formState.errors.password.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="form-item">
+                <label className="FormLabel" htmlFor="username">
+                  Username Here
+                </label>
+                <div className="input-wrapper">
+                  <FontAwesomeIcon icon={faUser} className="custom-icon" />
+                  <input
+                    type="text"
+                    placeholder="display name"
+                    className="custom-input"
+                    {...form.register("username")}
+                  />
+                </div>
+                {form.formState.errors.username && (
+                  <p className="error-message">
+                    {form.formState.errors.username.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="form-footer">
+                <button type="submit" className="login-btn">
+                  {isLoading ? "Signing Up..." : "Sign Up"}
+                </button>
+              </div>
+              <OrSeparator />
+              <button
+                onClick={handleGoogle}
+                className="google-btn"
+                style={{ marginBottom: "30px" }}
+              >
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  style={{
+                    marginRight: "20px",
+                    right: "10px",
+                  }}
+                />
+                Sign up with Google
+              </button>
+              <button className="register-btn" onClick={handleSignIn}>
+                SIGN In
+              </button>
+            </form>
           </div>
         </div>
       </div>
