@@ -2,9 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 const cors = require("cors");
 import dotenv from "dotenv";
-import userRoutes from "../routes/userRoutes"; // Import user routes
 import incomeRoutes from "../routes/incomeRoutes"; // Import income routes
-
+import signupRouter from "../routes/signupRoutes";
+import signinRouter from "../routes/signinRoutes";
 dotenv.config(); // Load environment variables from .env
 
 const app = express();
@@ -21,7 +21,6 @@ if (!mongoURI) {
   process.exit(1); // Exit if no MongoDB URI
 }
 
-// Connect to MongoDB
 mongoose
   .connect(mongoURI)
   .then(() => console.log("Connected to MongoDB"))
@@ -31,7 +30,8 @@ mongoose
   });
 
 // Define routes
-app.use("/signup", userRoutes); // Use user routes
+app.use("/signup", signupRouter); // Use user routes
+app.use("/signin", signinRouter); // Use user routes
 app.use("/income", incomeRoutes); // Use income routes
 
 // Start the server

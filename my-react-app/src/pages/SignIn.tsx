@@ -14,6 +14,37 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const handleLogin = async () => {
+    try {
+      // Collect form data
+      const { email, password } = formData; // Assume formData is state storing user input
+
+      // Send a POST request to the backend
+      const response = await fetch("http://localhost:4000/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      // Parse the response
+      const data = await response.json();
+
+      if (response.ok) {
+        // Save the token (optional, for session management)
+        localStorage.setItem("authToken", data.token);
+
+        // Redirect to the home page
+        window.location.href = "/home";
+      } else {
+        // Handle errors (e.g., show an error message)
+        console.error(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
 
   const handleGoogle = async (e) => {
     e.preventDefault();
@@ -152,7 +183,11 @@ const SignIn = () => {
                 <a href="#" className="forgot-password-link">
                   Forget password?
                 </a>
-                <button type="submit" className="login-btn">
+                <button
+                  onClick={handleLogin}
+                  type="submit"
+                  className="login-btn"
+                >
                   Login
                 </button>
               </div>
