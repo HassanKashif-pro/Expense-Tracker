@@ -31,7 +31,7 @@ mongoose
   });
 
 // Define routes
-app.use("/users", userRoutes); // Use user routes
+app.use("/signup", userRoutes); // Use user routes
 app.use("/income", incomeRoutes); // Use income routes
 
 // Start the server
