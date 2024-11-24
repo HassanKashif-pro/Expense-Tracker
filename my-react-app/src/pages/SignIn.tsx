@@ -1,75 +1,68 @@
-"use client";
-
-import "../styles/SignIn.css";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase/firebaseConfig.ts";
-
-import { z } from "zod";
-
-const formSchema = z.object({
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters long." })
-    .max(20, { message: "Password cannot exceed 20 characters." }),
-});
+import "../styles/SignIn.css"; // Assuming your CSS file contains styles.
 
 const SignIn = () => {
-  const handleGoogle = async (e) => {
-    e.preventDefault(); // Prevent default form submission if this is inside a form
-
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user; // Get the signed-in user
-      console.log("User Info:", user);
-      // You can now redirect or store the user information
-    } catch (error) {
-      console.error("Error during sign-in:", error);
-      // Handle error (e.g., show a message to the user)
-    }
-  }; // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    console.log(values);
-  }
-  const OrSeparator = () => {
-    return (
-      <div className="or-separator">
-        <div className="line"></div>
-        <span>or</span>
-        <div className="line"></div>
-      </div>
-    );
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleGoogle = async (e) => {
+    e.preventDefault();
+    // Logic for Google Sign-In
+    console.log("Google Sign-In Clicked");
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { email: "", password: "" };
+
+    if (!formData.email.includes("@")) {
+      newErrors.email = "Invalid email address.";
+      isValid = false;
+    }
+    if (formData.password.length < 8 || formData.password.length > 20) {
+      newErrors.password = "Password must be between 8 and 20 characters long.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log("Form Submitted", formData);
+      // Perform login or submit form data
+    }
+  };
+
   const handleSignUp = () => {
     window.location.href = "/signup";
   };
+
+  const OrSeparator = () => (
+    <div className="or-separator">
+      <div className="line"></div>
+      <span>or</span>
+      <div className="line"></div>
+    </div>
+  );
+
   return (
     <div className="Main-section">
       <div className="Side-section-wrapper">
@@ -107,120 +100,82 @@ const SignIn = () => {
         <div className="Side-section-right">
           <div
             style={{
-              top: "0",
+              top: "20px",
+              marginRight: "90px",
               position: "absolute",
               color: "#fff",
-              fontSize: "20px",
+              fontSize: "15px",
             }}
           >
-            <h1>Welcome</h1>
+            <h1 style={{ fontWeight: "600", fontSize: "35px" }}>Welcome</h1>
             <p> Start Managing Your Finances Today</p>
           </div>
           <div className="Register-Forms">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field, fieldState }) => (
-                    <FormItem>
-                      <FormLabel className="FormLabel">Email Here</FormLabel>
-                      <FormControl>
-                        <div className="input-wrapper">
-                          <FontAwesomeIcon
-                            icon={faEnvelope}
-                            className="custom-icon"
-                          />
-                          <Input
-                            type="email"
-                            placeholder="example@email.com"
-                            {...field}
-                            className="custom-input"
-                          />
-                        </div>
-                      </FormControl>
-                      {fieldState.error && (
-                        <p
-                          style={{
-                            margin: "0",
-                            position: "relative",
-                            color: "red",
-                          }}
-                        >
-                          {fieldState.error.message}
-                        </p>
-                      )}
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field, fieldState }) => (
-                    <FormItem>
-                      <FormLabel className="FormLabel">Password Here</FormLabel>
-                      <FormControl>
-                        <div className="input-wrapper">
-                          <FontAwesomeIcon
-                            icon={faLock}
-                            className="custom-icon"
-                          />
-                          <Input
-                            type="password"
-                            placeholder="at least 8 characters"
-                            {...field}
-                            className="custom-input"
-                          />
-                        </div>
-                      </FormControl>
-                      {fieldState.error && (
-                        <p
-                          style={{
-                            margin: "0",
-                            position: "relative",
-                            color: "red",
-                          }}
-                        >
-                          {fieldState.error.message}
-                        </p>
-                      )}
-                    </FormItem>
-                  )}
-                />
-
-                <div className="form-footer">
-                  <Link href="#" className="forgot-password-link">
-                    Forget password?
-                  </Link>
-                  <Button type="submit" className="login-btn">
-                    Login
-                  </Button>
-                </div>
-                <OrSeparator />
-                <Button
-                  onClick={handleGoogle}
-                  className="google-btn"
-                  style={{ marginBottom: "30px" }}
-                >
-                  <FontAwesomeIcon
-                    icon={faGoogle}
-                    style={{
-                      marginRight: "20px",
-                      right: "10px",
-                    }}
+            <form onSubmit={handleSubmit}>
+              <div className="form-item">
+                <label className="FormLabel">Email Here</label>
+                <div className="input-wrapper">
+                  <FontAwesomeIcon icon={faEnvelope} className="custom-icon" />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="example@email.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="custom-input"
                   />
-                  Sign in with Google
-                </Button>
-                <Button
-                  className="register-btn"
-                  style={{ marginTop: "" }}
-                  onClick={handleSignUp}
-                >
-                  SIGN UP
-                </Button>
-              </form>
-            </Form>
+                </div>
+                {errors.email && (
+                  <p style={{ color: "red", margin: "0" }}>{errors.email}</p>
+                )}
+              </div>
+
+              <div className="form-item">
+                <label className="FormLabel">Password Here</label>
+                <div className="input-wrapper">
+                  <FontAwesomeIcon icon={faLock} className="custom-icon" />
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="at least 8 characters"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="custom-input"
+                  />
+                </div>
+                {errors.password && (
+                  <p style={{ color: "red", margin: "0" }}>{errors.password}</p>
+                )}
+              </div>
+
+              <div className="form-footer">
+                <a href="#" className="forgot-password-link">
+                  Forget password?
+                </a>
+                <button type="submit" className="login-btn">
+                  Login
+                </button>
+              </div>
+              <OrSeparator />
+              <button
+                onClick={handleGoogle}
+                className="google-btn"
+                style={{ marginBottom: "30px" }}
+              >
+                <FontAwesomeIcon
+                  icon={faGoogle}
+                  style={{ marginRight: "20px" }}
+                />
+                Sign in with Google
+              </button>
+              <button
+                onClick={handleSignUp}
+                className="register-btn"
+                style={{ marginTop: "10px" }}
+              >
+                SIGN UP
+              </button>
+            </form>
           </div>
         </div>
       </div>
