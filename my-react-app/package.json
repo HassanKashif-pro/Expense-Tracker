@@ -27,6 +27,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "firebase": "^11.0.1",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.454.0",
     "popover": "^2.4.1",
     "radix-ui": "^1.0.1",
