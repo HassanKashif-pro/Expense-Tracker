@@ -1,8 +1,10 @@
 const bcrypt = require("bcrypt");
+import { error } from "console";
 import User from "../models/UserSchema";
 const jwt = require("jsonwebtoken");
+import dotenv from "dotenv";
 import { Request, Response } from "express";
-
+dotenv.config();
 // Sign Up Function
 export const signUp = async (req: Request, res: Response): Promise<void> => {
   const { username, email, password } = req.body;
