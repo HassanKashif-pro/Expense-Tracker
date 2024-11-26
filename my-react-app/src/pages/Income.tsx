@@ -93,7 +93,7 @@ function Income() {
 
     fetchIncomes();
   }, []);
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>, e) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
@@ -109,7 +109,8 @@ function Income() {
         alert("Income successfully recorded!");
 
         // Clear the form inputs after submission
-        e.target.reset(); // Reset the form (works for native HTML forms)
+        form.reset(); // Reset the form (works for native HTML forms)
+        fetchIncomes();
       }
     } catch (error: any) {
       console.error(
@@ -130,6 +131,17 @@ function Income() {
         <div className="total-card">TOTAL INCOME</div>
         <div className="cards-wrapper">
           <div className="form-card">
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: "600",
+                marginLeft: "10%",
+                color: "#2260ff",
+                marginBottom: "20px",
+              }}
+            >
+              Add Incomes Here
+            </div>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -268,10 +280,19 @@ function Income() {
             </Form>
           </div>
           <div className="income-card">
-            This is the income card
+            <div
+              style={{
+                fontSize: "20px",
+                fontWeight: "600",
+                marginLeft: "35%",
+                color: "#2260ff",
+              }}
+            >
+              Recent Incomes
+            </div>
             <ul>
-              {incomeData.map((income: any, index) => (
-                <li key={index}>
+              {incomeData.slice(-4).map((income: any, index) => (
+                <li key={index} className="expense-Cards">
                   {income.title} - ${income.amount}
                 </li>
               ))}
@@ -284,3 +305,6 @@ function Income() {
 }
 
 export default Income;
+function fetchIncomes() {
+  throw new Error("Function not implemented.");
+}
