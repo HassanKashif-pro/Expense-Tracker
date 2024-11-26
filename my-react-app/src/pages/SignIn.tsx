@@ -39,6 +39,7 @@ const SignIn = () => {
         window.location.href = "/home";
       } else {
         // Handle errors (e.g., show an error message)
+        alert("Login Failed, Check your credentials");
         console.error(data.message || "Login failed");
       }
     } catch (error) {
