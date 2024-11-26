@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns"; // Ensure this is imported correctly
@@ -65,6 +65,7 @@ const formSchema = z.object({
 
 function Income() {
   const [isLoading, setIsLoading] = useState(false);
+  const [incomeData, setIncomeData] = useState([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,7 +77,22 @@ function Income() {
       date: new Date().toISOString().split("T")[0], // Default to today's date
     },
   });
+  useEffect(() => {
+    const fetchIncomes = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/income", {
+          headers: {
+            "Cache-Control": "no-cache",
+          },
+        });
+        setIncomeData(response.data);
+      } catch (error: any) {
+        console.error("Error fetching incomes:", error.message);
+      }
+    };
 
+    fetchIncomes();
+  }, []);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
@@ -91,7 +107,9 @@ function Income() {
       );
       if (response.status === 201) {
         alert("Income successfully recorded!");
-        window.location.href = "/home";
+
+        // Clear the form inputs after submission
+        e.target.reset(); // Reset the form (works for native HTML forms)
       }
     } catch (error: any) {
       console.error(
@@ -249,7 +267,16 @@ function Income() {
               </form>
             </Form>
           </div>
-          <div className="income-card">This is the income card</div>
+          <div className="income-card">
+            This is the income card
+            <ul>
+              {incomeData.map((income: any, index) => (
+                <li key={index}>
+                  {income.title} - ${income.amount}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
