@@ -55,3 +55,20 @@
   height: 30px;
   width: 90%;
 }
+.expense-Cards {
+  background-color: #ffffffbe;
+  justify-content: center;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  width: 97%;
+  box-shadow: none;
+  border: 1.5px solid transparent; /* Start with a transparent border */
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  border-color: #000000; /* Add green border color on hover */
+}
+
+.expense-Cards:hover {
+  transform: translateY(-6px); /* Subtle lift effect */
+  box-shadow: 3px 3px 1px #00000033;
+}
