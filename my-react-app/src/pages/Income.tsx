@@ -128,7 +128,18 @@ function Income() {
       <Header />
       <div className="card" style={{ height: "80vh", margin: "20px" }}>
         <div className="expense-title">Income</div>
-        <div className="total-card">TOTAL INCOME</div>
+        <div className="total-card">
+          TOTAL INCOME:{" "}
+          <div>
+            <h3>
+              &nbsp; $
+              {incomeData.reduce(
+                (total: number, income: any) => total + income.amount,
+                0
+              )}
+            </h3>
+          </div>
+        </div>
         <div className="cards-wrapper">
           <div className="form-card">
             <div
