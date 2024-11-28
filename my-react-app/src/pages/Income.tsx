@@ -30,6 +30,38 @@ import axios from "axios";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns"; // Ensure this is imported correctly
 import { Calendar } from "@/components/ui/calendar";
+import {
+  FaChartLine,
+  FaBriefcase,
+  FaEllipsisH,
+  FaPiggyBank,
+  FaExchangeAlt,
+  FaCoins,
+  FaGraduationCap,
+  FaShoppingBasket,
+  FaHeartbeat,
+  FaReceipt,
+  FaUtensils,
+  FaTshirt,
+  FaPlane,
+} from "react-icons/fa";
+
+const cardIcon = [
+  { icon: <FaChartLine /> },
+  { icon: <FaBriefcase /> },
+  { icon: <FaEllipsisH /> },
+  { icon: <FaPiggyBank /> },
+  { icon: <FaExchangeAlt /> },
+  { icon: <FaCoins /> },
+  { icon: <FaGraduationCap /> },
+  { icon: <FaShoppingBasket /> },
+  { icon: <FaHeartbeat /> },
+  { icon: <FaReceipt /> },
+  { icon: <FaUtensils /> },
+  { icon: <FaTshirt /> },
+  { icon: <FaPlane /> },
+  { icon: <FaEllipsisH /> }, // Optional duplicate, remove if not needed
+];
 
 // Form schema definition
 const formSchema = z.object({
@@ -62,10 +94,22 @@ const formSchema = z.object({
       }
     ),
 });
-
 function Income() {
   const [isLoading, setIsLoading] = useState(false);
   const [incomeData, setIncomeData] = useState([]);
+
+  const fetchIncomes = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/income", {
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+      setIncomeData(response.data);
+    } catch (error: any) {
+      console.error("Error fetching incomes:", error.message);
+    }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -77,22 +121,11 @@ function Income() {
       date: new Date().toISOString().split("T")[0], // Default to today's date
     },
   });
-  useEffect(() => {
-    const fetchIncomes = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/income", {
-          headers: {
-            "Cache-Control": "no-cache",
-          },
-        });
-        setIncomeData(response.data);
-      } catch (error: any) {
-        console.error("Error fetching incomes:", error.message);
-      }
-    };
 
+  useEffect(() => {
     fetchIncomes();
   }, []);
+
   const onSubmit = async (values: z.infer<typeof formSchema>, e) => {
     setIsLoading(true);
     try {
@@ -108,8 +141,10 @@ function Income() {
       if (response.status === 201) {
         alert("Income successfully recorded!");
 
-        // Clear the form inputs after submission
-        form.reset(); // Reset the form (works for native HTML forms)
+        // Reset the form
+        form.reset();
+
+        // Fetch the updated incomes
         fetchIncomes();
       }
     } catch (error: any) {
@@ -248,7 +283,6 @@ function Income() {
                     </FormItem>
                   )}
                 />
-
                 {/* Type Field (Dropdown) */}
                 <FormField
                   control={form.control}
@@ -265,12 +299,7 @@ function Income() {
                           </SelectTrigger>
                           <SelectContent>
                             {[
-                              "Investment",
-                              "Salary",
-                              "Other",
-                              "Savings",
-                              "Bank Transfer",
-                              "Stocks",
+                              ...new Set(cardIcon.map((item) => item.category)),
                             ].map((type) => (
                               <SelectItem key={type} value={type}>
                                 {type}
@@ -302,11 +331,26 @@ function Income() {
               Recent Incomes
             </div>
             <ul>
-              {incomeData.slice(-4).map((income: any, index) => (
-                <li key={index} className="expense-Cards">
-                  {income.title} - ${income.amount}
-                </li>
-              ))}
+              {incomeData.slice(-4).map((income: any, index: number) => {
+                const formattedDate = format(
+                  new Date(income.date),
+                  "dd/MM/yyyy"
+                );
+                return (
+                  <li key={index} className="expense-Cards">
+                    <div className="expenseCard-header">
+                      <div className="expenseCard-title">{income.title} -</div>
+                      <div className="expenseCard-amount">
+                        &nbsp; ${income.amount}
+                      </div>
+                    </div>
+                    <div className="expenseCard-footer">
+                      <div className="expenseCard-type">{income.type}</div>
+                      <div className="expenseCard-date">{formattedDate}</div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -316,6 +360,3 @@ function Income() {
 }
 
 export default Income;
-function fetchIncomes() {
-  throw new Error("Function not implemented.");
-}

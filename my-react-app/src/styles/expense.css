@@ -57,8 +57,7 @@
 }
 .expense-Cards {
   background-color: #ffffffbe;
-  justify-content: center;
-  padding: 20px;
+  padding: 11px;
   margin: 10px;
   border-radius: 8px;
   width: 97%;
@@ -72,4 +71,28 @@
   transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   transform: translateY(3px); /* Subtle lift effect */
   box-shadow: none;
+}
+.expenseCard-title {
+  font-size: 18px;
+  color: #2260ff;
+  font-weight: 600;
+}
+.expenseCard-amount {
+  color: rgba(4, 160, 4, 0.61);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.expenseCard-header {
+  display: flex;
+  flex-direction: row;
+}
+.expenseCard-footer {
+  font-size: x-small;
+  display: flex;
+  flex-direction: row;
+  margin-left: 2px;
+}
+.expenseCard-date {
+  margin-left: 20px;
 }
