@@ -47,20 +47,19 @@ import {
 } from "react-icons/fa";
 
 const cardIcon = [
-  { icon: <FaChartLine /> },
-  { icon: <FaBriefcase /> },
-  { icon: <FaEllipsisH /> },
-  { icon: <FaPiggyBank /> },
-  { icon: <FaExchangeAlt /> },
-  { icon: <FaCoins /> },
-  { icon: <FaGraduationCap /> },
-  { icon: <FaShoppingBasket /> },
-  { icon: <FaHeartbeat /> },
-  { icon: <FaReceipt /> },
-  { icon: <FaUtensils /> },
-  { icon: <FaTshirt /> },
-  { icon: <FaPlane /> },
-  { icon: <FaEllipsisH /> }, // Optional duplicate, remove if not needed
+  { type: "Investment", icon: <FaChartLine /> },
+  { type: "Salary", icon: <FaBriefcase /> },
+  { type: "Savings", icon: <FaPiggyBank /> },
+  { type: "Bank Transfer", icon: <FaExchangeAlt /> },
+  { type: "Stocks", icon: <FaCoins /> },
+  { type: "Education", icon: <FaGraduationCap /> },
+  { type: "Groceries", icon: <FaShoppingBasket /> },
+  { type: "Health", icon: <FaHeartbeat /> },
+  { type: "Subscriptions", icon: <FaReceipt /> },
+  { type: "Takeaways", icon: <FaUtensils /> },
+  { type: "Clothing", icon: <FaTshirt /> },
+  { type: "Traveling", icon: <FaPlane /> },
+  { type: "Other", icon: <FaEllipsisH /> },
 ];
 
 // Form schema definition
@@ -161,7 +160,7 @@ function Income() {
   return (
     <div className="expense-main">
       <Header />
-      <div className="card" style={{ height: "80vh", margin: "20px" }}>
+      <div className="card" style={{ height: "100vh", margin: "20px" }}>
         <div className="expense-title">Income</div>
         <div className="total-card">
           TOTAL INCOME:{" "}
@@ -299,7 +298,12 @@ function Income() {
                           </SelectTrigger>
                           <SelectContent>
                             {[
-                              ...new Set(cardIcon.map((item) => item.category)),
+                              "Investment",
+                              "Salary",
+                              "Other",
+                              "Savings",
+                              "Bank Transfer",
+                              "Stocks",
                             ].map((type) => (
                               <SelectItem key={type} value={type}>
                                 {type}
@@ -331,26 +335,39 @@ function Income() {
               Recent Incomes
             </div>
             <ul>
-              {incomeData.slice(-4).map((income: any, index: number) => {
-                const formattedDate = format(
-                  new Date(income.date),
-                  "dd/MM/yyyy"
-                );
-                return (
-                  <li key={index} className="expense-Cards">
-                    <div className="expenseCard-header">
-                      <div className="expenseCard-title">{income.title} -</div>
-                      <div className="expenseCard-amount">
-                        &nbsp; ${income.amount}
+              {incomeData
+                .slice(-4)
+                .map((income: any, index: number, type: any) => {
+                  const formattedDate = format(
+                    new Date(income.date),
+                    "dd/MM/yyyy"
+                  );
+                  return (
+                    <li key={index} className="expense-Cards">
+                      <div className="expenseCard-header">
+                        <div className="expenseCard-icon">
+                          {cardIcon
+                            .filter((icon) => icon.type === type)
+                            .map((filteredIcon, index) => (
+                              <SelectItem key={index} value={filteredIcon.type}>
+                                {filteredIcon.icon}
+                              </SelectItem>
+                            ))}
+                        </div>
+                        <div className="expenseCard-title">
+                          {income.title} -
+                        </div>
+                        <div className="expenseCard-amount">
+                          &nbsp; ${income.amount}
+                        </div>
                       </div>
-                    </div>
-                    <div className="expenseCard-footer">
-                      <div className="expenseCard-type">{income.type}</div>
-                      <div className="expenseCard-date">{formattedDate}</div>
-                    </div>
-                  </li>
-                );
-              })}
+                      <div className="expenseCard-footer">
+                        <div className="expenseCard-type">{income.type}</div>
+                        <div className="expenseCard-date">{formattedDate}</div>
+                      </div>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

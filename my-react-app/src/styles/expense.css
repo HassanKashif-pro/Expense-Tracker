@@ -44,7 +44,7 @@
 }
 .income-card {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: #333;
@@ -55,44 +55,87 @@
   height: 30px;
   width: 90%;
 }
+/* Card container */
 .expense-Cards {
-  background-color: #ffffffbe;
-  padding: 11px;
-  margin: 10px;
-  border-radius: 8px;
-  width: 97%;
-  box-shadow: none;
-  border: 1.5px solid transparent; /* Start with a transparent border */
-  box-shadow: 3px 3px 1px #00000033;
-  border-color: #000000; /* Add green border color on hover */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slightly opaque white for a clean look */
+  padding: 15px; /* Increased padding for better spacing */
+  margin: 12px 8px; /* Adjusted margin for uniform spacing */
+  border-radius: 12px; /* Slightly larger border radius for a softer look */
+  width: 95%; /* More responsive width */
+  border: 1.5px solid transparent; /* Initial transparent border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for a modern look */
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease; /* Smooth transitions */
 }
 
 .expense-Cards:hover {
-  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-  transform: translateY(3px); /* Subtle lift effect */
-  box-shadow: none;
-}
-.expenseCard-title {
-  font-size: 18px;
-  color: #2260ff;
-  font-weight: 600;
-}
-.expenseCard-amount {
-  color: rgba(4, 160, 4, 0.61);
-  font-size: 18px;
-  font-weight: 600;
+  transform: translateY(-5px); /* Subtle lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+  border-color: #2260ff; /* Blue border color on hover */
 }
 
+/* Title styling */
+.expenseCard-title {
+  font-size: 20px; /* Slightly larger font size for better readability */
+  color: #2260ff; /* Consistent blue for titles */
+  font-weight: 700; /* Increased weight for stronger emphasis */
+  margin-bottom: 8px; /* Added spacing below the title */
+}
+
+/* Amount styling */
+.expenseCard-amount {
+  color: #04a004; /* Brighter green for emphasis */
+  font-size: 20px; /* Slightly larger font size */
+  font-weight: 700; /* Bold for a stronger visual hierarchy */
+  margin-bottom: 8px; /* Added spacing below the amount */
+}
+
+/* Header layout */
 .expenseCard-header {
   display: flex;
-  flex-direction: row;
+  align-items: center; /* Align content vertically */
+  gap: 10px; /* Spacing between elements */
+  height: auto; /* Dynamic height for responsiveness */
 }
+
+/* Footer layout */
 .expenseCard-footer {
-  font-size: x-small;
+  font-size: 12px; /* Reduced font size for a more compact look */
   display: flex;
+  margin-top: 10px;
+  margin-left: 5px;
   flex-direction: row;
-  margin-left: 2px;
+  justify-content: flex-end; /* Align items to the left */
+  gap: 2px; /* Space between footer items */
+  color: #555555; /* Muted color for less emphasis */
 }
+
+/* Date styling */
 .expenseCard-date {
-  margin-left: 20px;
+  margin-left: auto; /* Push date to the far right */
+  color: #888888; /* Subtle gray color */
+  font-weight: 500; /* Slightly bold for better readability */
+}
+
+/* Icon styling */
+.expenseCard-icon {
+  height: 48px; /* Slightly larger for better visibility */
+  width: 48px;
+  background-color: rgba(
+    34,
+    96,
+    255,
+    0.1
+  ); /* Light blue background for the icon */
+  border-radius: 50%; /* Circular icon background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px; /* Space between icon and text */
+}
+.expenseCard-type {
 }
