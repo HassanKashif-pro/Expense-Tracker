@@ -63,7 +63,7 @@ const cardIcon = [
 ];
 
 // Form schema definition
-const formSchema = z.object({
+export const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
   type: z.enum([
@@ -174,19 +174,12 @@ function Income() {
             </h3>
           </div>
         </div>
+
+        {/* Cards Wrapper */}
         <div className="cards-wrapper">
+          {/* Form Section */}
           <div className="form-card">
-            <div
-              style={{
-                fontSize: "20px",
-                fontWeight: "600",
-                marginLeft: "10%",
-                color: "#2260ff",
-                marginBottom: "20px",
-              }}
-            >
-              Add Incomes Here
-            </div>
+            <div className="form-header">Add Incomes Here</div>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -255,7 +248,7 @@ function Income() {
                           <FormControl>
                             <Button variant="outline" aria-label="Pick a date">
                               {field.value ? (
-                                format(new Date(field.value), "PPP") // Display a human-readable format
+                                format(new Date(field.value), "PPP")
                               ) : (
                                 <span>Pick a date</span>
                               )}
@@ -269,12 +262,11 @@ function Income() {
                             selected={
                               field.value ? new Date(field.value) : undefined
                             }
-                            onSelect={(date) => {
-                              // Ensure field value is updated as an ISO string
+                            onSelect={(date) =>
                               field.onChange(
                                 date ? date.toISOString().split("T")[0] : ""
-                              );
-                            }}
+                              )
+                            }
                           />
                         </PopoverContent>
                       </Popover>
@@ -282,7 +274,7 @@ function Income() {
                     </FormItem>
                   )}
                 />
-                {/* Type Field (Dropdown) */}
+                {/* Type Dropdown */}
                 <FormField
                   control={form.control}
                   name="type"
@@ -323,51 +315,32 @@ function Income() {
               </form>
             </Form>
           </div>
+
+          {/* Recent Incomes Section */}
           <div className="income-card">
-            <div
-              style={{
-                fontSize: "20px",
-                fontWeight: "600",
-                marginLeft: "35%",
-                color: "#2260ff",
-              }}
-            >
-              Recent Incomes
-            </div>
+            <div className="income-header">Recent Incomes</div>
             <ul>
-              {incomeData
-                .slice(-4)
-                .map((income: any, index: number, type: any) => {
-                  const formattedDate = format(
-                    new Date(income.date),
-                    "dd/MM/yyyy"
-                  );
-                  return (
-                    <li key={index} className="expense-Cards">
-                      <div className="expenseCard-header">
-                        <div className="expenseCard-icon">
-                          {cardIcon
-                            .filter((icon) => icon.type === type)
-                            .map((filteredIcon, index) => (
-                              <SelectItem key={index} value={filteredIcon.type}>
-                                {filteredIcon.icon}
-                              </SelectItem>
-                            ))}
-                        </div>
-                        <div className="expenseCard-title">
-                          {income.title} -
-                        </div>
-                        <div className="expenseCard-amount">
-                          &nbsp; ${income.amount}
-                        </div>
+              {incomeData.slice(-4).map((income: any, index: number) => {
+                const formattedDate = format(
+                  new Date(income.date),
+                  "dd/MM/yyyy"
+                );
+                return (
+                  <li key={index} className="expense-Cards">
+                    <div className="expenseCard-header">
+                      <div className="expenseCard-icon">
+                        {/* Optional icon rendering */}
                       </div>
-                      <div className="expenseCard-footer">
-                        <div className="expenseCard-type">{income.type}</div>
-                        <div className="expenseCard-date">{formattedDate}</div>
-                      </div>
-                    </li>
-                  );
-                })}
+                      <div className="expenseCard-title">{income.title} -</div>
+                      <div className="expenseCard-amount">${income.amount}</div>
+                    </div>
+                    <div className="expenseCard-footer">
+                      <div className="expenseCard-type">{income.type}</div>
+                      <div className="expenseCard-date">{formattedDate}</div>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

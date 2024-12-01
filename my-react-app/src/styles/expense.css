@@ -64,7 +64,7 @@
     0.9
   ); /* Slightly opaque white for a clean look */
   padding: 15px; /* Increased padding for better spacing */
-  margin: 12px 8px; /* Adjusted margin for uniform spacing */
+  margin: 8px; /* Adjusted margin for uniform spacing */
   border-radius: 12px; /* Slightly larger border radius for a softer look */
   width: 95%; /* More responsive width */
   border: 1.5px solid transparent; /* Initial transparent border */
