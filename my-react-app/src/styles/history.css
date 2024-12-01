@@ -7,3 +7,87 @@
   overflow-x: hidden;
   margin-left: 320px;
 }
+.history-Cards {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between; /* Distribute items with space between */
+  align-items: center; /* Vertically center items */
+  width: 99%;
+  border: 1.5px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.history-Cards:hover {
+  transform: translateY(-5px); /* Subtle lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Slightly deeper shadow */
+}
+.history-title {
+  flex: 1; /* Take up proportional space */
+  text-align: left; /* Align to the left */
+  font-size: 15px;
+  color: #2260ff;
+  font-weight: 700;
+  margin-right: 20px; /* Add spacing between sections */
+}
+
+.history-date {
+  flex: 1; /* Take up proportional space */
+  text-align: right; /* Align to the right */
+  font-size: 12px;
+  color: #888888;
+  font-weight: 200;
+}
+
+.history-amount {
+  flex: 1; /* Take up proportional space */
+  text-align: center; /* Align to the center */
+  color: #04a004;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 20px; /* Add spacing between sections */
+}
+
+.history-description {
+  flex: 2; /* Take up more space for descriptions */
+  text-align: center; /* Align to the center */
+  font-size: 14px;
+  color: #444444;
+  margin: 0 20px; /* Add spacing between sections */
+}
+.history-header {
+  display: flex;
+  justify-content: space-between; /* Distribute items with space between */
+  align-items: center; /* Vertically align items */
+  padding: 10px 15px; /* Add spacing around the header */
+  background-color: #f4f5f7; /* Light background color */
+  border-bottom: 2px solid #ccc; /* Optional: Separator line */
+  font-weight: bold; /* Make the text bold */
+  color: #444444; /* Text color */
+  width: 99%;
+  border-radius: 15px;
+  margin-bottom: 18px;
+  margin-top: 17px;
+}
+
+.header-title {
+  flex: 0.5; /* Take up proportional space */
+  text-align: left; /* Align to the left */
+}
+
+.header-amount {
+  flex: 1.5; /* Take up proportional space */
+  text-align: center;
+}
+
+.header-type {
+  flex: 1; /* Take up proportional space */
+  text-align: center; /* Align to the center */
+}
+
+.header-date {
+  flex: 1; /* Take up proportional space */
+  text-align: right; /* Align to the right */
+}
