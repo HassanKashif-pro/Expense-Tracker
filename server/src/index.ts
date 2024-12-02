@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const cors = require("cors");
 import dotenv from "dotenv";
 import incomeRoutes from "../routes/incomeRoutes"; // Import income routes
+import expenseRoutes from "../routes/incomeRoutes"; // Import income routes
 import signupRouter from "../routes/signupRoutes";
 import signinRouter from "../routes/signinRoutes";
 dotenv.config(); // Load environment variables from .env
@@ -33,6 +34,7 @@ mongoose
 app.use("/signup", signupRouter); // Use user routes
 app.use("/signin", signinRouter); // Use user routes
 app.use("/income", incomeRoutes); // Use income routes
+app.use("/expense", expenseRoutes); // Use income routes
 
 // Start the server
 app.listen(PORT, () => {
