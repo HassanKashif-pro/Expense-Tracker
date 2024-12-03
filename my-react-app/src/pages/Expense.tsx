@@ -110,7 +110,6 @@ function Expense() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-4"
               >
-                {/* Title Field */}
                 <FormField
                   control={form.control}
                   name="title"
@@ -127,7 +126,7 @@ function Expense() {
                     </FormItem>
                   )}
                 />
-                {/* Description Field */}
+
                 <FormField
                   control={form.control}
                   name="description"

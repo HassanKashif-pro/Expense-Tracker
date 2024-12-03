@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const cors = require("cors");
 import dotenv from "dotenv";
 import incomeRoutes from "../routes/incomeRoutes"; // Import income routes
-import expenseRoutes from "../routes/incomeRoutes"; // Import income routes
+import expenseRoutes from "../routes/expenseRoutes"; // Import income routes
 import signupRouter from "../routes/signupRoutes";
 import signinRouter from "../routes/signinRoutes";
 dotenv.config(); // Load environment variables from .env

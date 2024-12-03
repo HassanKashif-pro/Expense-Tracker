@@ -22,7 +22,7 @@ export const addExpense = async (req: any, res: any) => {
         .json({ message: "Amount must be a positive number!" });
     }
     await expense.save();
-    res.status(200).json({ message: "Income Added" });
+    res.status(200).json({ message: "expense Added" });
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -32,8 +32,8 @@ export const addExpense = async (req: any, res: any) => {
 
 export const getExpense = async (req: any, res: any) => {
   try {
-    const incomes = await Expense.find().sort({ createdAt: -1 });
-    res.status(200).json(incomes);
+    const expenses = await Expense.find().sort({ createdAt: -1 });
+    res.status(200).json(expenses);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -43,7 +43,7 @@ export const deleteExpense = async (req: any, res: any) => {
   const { id } = req.params;
   Expense.findByIdAndDelete(id)
     .then(() => {
-      res.status(200).json({ message: "Income Deleted" });
+      res.status(200).json({ message: "expense Deleted" });
     })
     .catch(() => {
       res.status(500).json({ message: "Server Error" });
