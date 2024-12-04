@@ -25,7 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns"; // Ensure this is imported correctly
@@ -58,6 +58,20 @@ const formSchema = z.object({
 
 function Expense() {
   const [isLoading, setIsLoading] = useState(false);
+  const [expenseData, setExpenseData] = useState([]);
+
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/expense", {
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+      setExpenseData(response.data);
+    } catch (error: any) {
+      console.error("Error fetching incomes:", error.message);
+    }
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -69,7 +83,9 @@ function Expense() {
       date: new Date().toISOString().split("T")[0], // Default to today's date
     },
   });
-
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
@@ -85,6 +101,7 @@ function Expense() {
       if (response.status === 201) {
         alert("Expense successfully recorded!");
         window.location.href = "/home";
+        fetchExpenses();
       }
     } catch (error: any) {
       console.error(
@@ -241,7 +258,40 @@ function Expense() {
               </form>
             </Form>
           </div>
-          <div className="expense-card">This is the expense card</div>
+          <div className="income-card">
+            <div className="income-header">Recent Incomes</div>
+            <ul>
+              {expenseData.length > 0 ? (
+                expenseData.slice(-4).map((expense: any, index: number) => {
+                  const formattedDate = format(
+                    new Date(expense.date),
+                    "dd/MM/yyyy"
+                  );
+                  return (
+                    <li key={index} className="expense-Cards">
+                      <div className="expenseCard-header">
+                        <div className="expenseCard-icon">
+                          {/* Optional icon rendering */}
+                        </div>
+                        <div className="expenseCard-title">
+                          {expense.title} -
+                        </div>
+                        <div className="expenseCard-amount">
+                          ${expense.amount}
+                        </div>
+                      </div>
+                      <div className="expenseCard-footer">
+                        <div className="expenseCard-type">{expense.type}</div>
+                        <div className="expenseCard-date">{formattedDate}</div>
+                      </div>
+                    </li>
+                  );
+                })
+              ) : (
+                <div>No recent incomes available</div>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
