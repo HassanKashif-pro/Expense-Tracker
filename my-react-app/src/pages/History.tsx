@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 
 const History = () => {
   const [incomeData, setIncomeData] = useState([]);
+  const [expenseData, setExpenseData] = useState([]);
 
   const fetchIncomes = async () => {
     try {
@@ -21,6 +22,19 @@ const History = () => {
       setIncomeData(response.data);
     } catch (error: any) {
       console.error("Error fetching incomes:", error.message);
+    }
+  };
+
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:4000/expense", {
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
+      setExpenseData(response.data);
+    } catch (error: any) {
+      console.error("Error fetching expenses:", error.message);
     }
   };
 
@@ -37,7 +51,13 @@ const History = () => {
 
   useEffect(() => {
     fetchIncomes();
+    fetchExpenses();
   }, []);
+
+  // Combine and sort incomes and expenses by date
+  const combinedTransactions = [...incomeData, ...expenseData].sort(
+    (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return (
     <div className="history-main">
@@ -52,15 +72,18 @@ const History = () => {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {incomeData.length > 0 ? (
-            incomeData.map((transaction: any) => {
+          {combinedTransactions.length > 0 ? (
+            combinedTransactions.map((transaction: any) => {
               const formattedDate = format(
                 new Date(transaction.date),
                 "dd/MM/yyyy"
               );
+              const isIncome = incomeData.some(
+                (income: any) => income.id === transaction.id
+              );
               return (
-                <div className="miniCards-wrapper">
-                  <div key={transaction.id} className="history-Cards">
+                <div className="miniCards-wrapper" key={transaction.id}>
+                  <div className="history-Cards">
                     <div className="history-title">{transaction.title}</div>
                     <div className="history-amount">{transaction.amount}$</div>
                     <div className="history-description">
