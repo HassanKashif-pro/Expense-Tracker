@@ -48,7 +48,20 @@ export default function Home() {
                   marginTop: "5px",
                   font: "100",
                 }}
-              ></p>
+              >
+                {(() => {
+                  const totalIncome = incomeData.reduce(
+                    (total: number, income: any) => total + income.amount,
+                    0
+                  );
+                  const totalExpense = expenseData.reduce(
+                    (total: number, expense: any) => total + expense.amount,
+                    0
+                  );
+                  const balance = totalIncome - totalExpense;
+                  return balance < 0 ? `-$${Math.abs(balance)}` : `$${balance}`;
+                })()}
+              </p>
             </div>
             <div className="card incomes">
               <p
@@ -86,7 +99,7 @@ export default function Home() {
                   color: "red",
                 }}
               >
-                - $
+                -$
                 {expenseData.reduce(
                   (total: number, income: any) => total + income.amount,
                   0
