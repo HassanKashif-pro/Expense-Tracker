@@ -1,6 +1,7 @@
 // Home.js
 import React, { useEffect, useState } from "react";
 import "../styles/Home.css";
+import "../styles/History.css";
 import { Component } from "@/components/ui/lineChart";
 import Header from "@/components/Header";
 import axios from "axios";
@@ -38,14 +39,23 @@ export default function Home() {
       <div className="content">
         <div className="dashboard">
           <div className="top-row">
-            <div className="card balance">
-              <p style={{ margin: "0", fontSize: "20px" }}>Balance</p>
+            <div
+              className="card"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "20px",
+                alignItems: "center",
+                height: "70px",
+              }}
+            >
+              <p style={{ margin: "0", fontSize: "20px", fontWeight: "520" }}>
+                Balance:
+              </p>
               <p
                 style={{
                   color: "#2260FF",
                   fontSize: "30px",
-                  margin: "0",
-                  marginTop: "5px",
                   font: "100",
                 }}
               >
@@ -63,14 +73,24 @@ export default function Home() {
                 })()}
               </p>
             </div>
-            <div className="card incomes">
+            <div
+              className="card"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "20px",
+                height: "70px",
+                alignItems: "center",
+              }}
+            >
               <p
                 style={{
                   margin: "0",
                   fontSize: "20px",
+                  fontWeight: "520",
                 }}
               >
-                Income
+                Income:
               </p>
               <p
                 style={{
@@ -88,13 +108,22 @@ export default function Home() {
                 )}
               </p>
             </div>
-            <div className="card expenses">
-              <p style={{ margin: "0", fontSize: "20px" }}>Expenses</p>
+            <div
+              className="card"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                height: "70px",
+                gap: "20px",
+                alignItems: "center",
+              }}
+            >
+              <p style={{ margin: "0", fontSize: "20px", fontWeight: "520" }}>
+                Expenses:
+              </p>
               <p
                 style={{
                   fontSize: "30px",
-                  margin: "0",
-                  marginTop: "5px",
                   font: "100",
                   color: "red",
                 }}
@@ -112,7 +141,59 @@ export default function Home() {
             <div className="card portfolio-analytics">
               <Component />
             </div>
-            <div className="card your-cards">Recent Transactions</div>
+
+            <div className="card your-cards">
+              <h3>Recent Transactions</h3>
+              {(() => {
+                // Combine and sort transactions
+                const transactions = [
+                  ...incomeData.slice(-3).map((transaction: any) => ({
+                    ...transaction,
+                    type: "Income",
+                  })),
+                  ...expenseData.slice(-3).map((transaction: any) => ({
+                    ...transaction,
+                    type: "Expense",
+                  })),
+                ].sort(
+                  (a, b) =>
+                    new Date(b.date).getTime() - new Date(a.date).getTime()
+                ); // Sort by most recent
+
+                // Check if there are transactions
+                if (transactions.length === 0) {
+                  return <p>No recent transactions available.</p>;
+                }
+
+                return transactions.map((transaction, index) => {
+                  // Format date
+                  const formattedDate = new Date(
+                    transaction.date
+                  ).toLocaleDateString();
+
+                  return (
+                    <div key={index} className="history-Cards">
+                      <div className="history-title">{transaction.title}</div>
+                      <div
+                        className="history-amount"
+                        style={{
+                          color:
+                            transaction.type === "Income" ? "green" : "red",
+                        }}
+                      >
+                        {transaction.type === "Expense"
+                          ? `-$${transaction.amount}`
+                          : `$${transaction.amount}`}
+                      </div>
+                      <div className="history-description">
+                        {transaction.type}
+                      </div>
+                      <div className="history-date">{formattedDate}</div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
           </div>
         </div>
       </div>
