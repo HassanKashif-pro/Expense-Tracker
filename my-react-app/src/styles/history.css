@@ -91,3 +91,13 @@
   flex: 1; /* Take up proportional space */
   text-align: right; /* Align to the right */
 }
+.filter-btn {
+  border: #888888;
+  margin-right: 20px;
+}
+.filter-dropdown {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
