@@ -316,7 +316,6 @@ function Income() {
             </Form>
           </div>
 
-          {/* Recent Incomes Section */}
           <div className="income-card">
             <div className="income-header">Recent Incomes</div>
             <ul>
