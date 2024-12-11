@@ -9,6 +9,7 @@ import axios from "axios";
 export default function Home() {
   const [incomeData, setIncomeData] = useState([]);
   const [expenseData, setExpenseData] = useState([]);
+  const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchTransactions = async () => {
@@ -24,6 +25,12 @@ export default function Home() {
 
       setIncomeData(incomeResponse.data);
       setExpenseData(expenseResponse.data);
+
+      const dynamicChartData = aggregateDataByMonth(
+        incomeResponse.data,
+        expenseResponse.data
+      );
+      setChartData(dynamicChartData);
     } catch (error) {
       console.error("Error fetching transactions:", error);
     } finally {
@@ -139,13 +146,12 @@ export default function Home() {
 
           <div className="middle-row">
             <div className="card portfolio-analytics">
-              <Component />
+              <Component chartData={chartData} />
             </div>
 
             <div className="card your-cards">
               <h3>Recent Transactions</h3>
               {(() => {
-                // Combine and sort transactions
                 const transactions = [
                   ...incomeData.slice(-3).map((transaction: any) => ({
                     ...transaction,
@@ -158,15 +164,13 @@ export default function Home() {
                 ].sort(
                   (a, b) =>
                     new Date(b.date).getTime() - new Date(a.date).getTime()
-                ); // Sort by most recent
+                );
 
-                // Check if there are transactions
                 if (transactions.length === 0) {
                   return <p>No recent transactions available.</p>;
                 }
 
                 return transactions.map((transaction, index) => {
-                  // Format date
                   const formattedDate = new Date(
                     transaction.date
                   ).toLocaleDateString();
@@ -198,5 +202,8 @@ export default function Home() {
         </div>
       </div>
     </div>
-  ); // Basic element to confirm rendering
+  );
+}
+function aggregateDataByMonth(data: any, data1: any) {
+  throw new Error("Function not implemented.");
 }
