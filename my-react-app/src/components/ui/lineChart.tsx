@@ -1,43 +1,93 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { useState, useEffect } from "react";
+import { getMonth, format } from "date-fns";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+
+type Transaction = {
+  date: string;
+  amount: number;
+};
+
+function aggregateDataByMonth(
+  incomeData: Transaction[],
+  expenseData: Transaction[]
+) {
+  const monthlyTotals: Record<number, { income: number; expense: number }> = {};
+
+  // Process income data
+  incomeData.forEach(({ date, amount }) => {
+    const monthIndex = getMonth(new Date(date)); // 0 for January, 1 for February, etc.
+    if (!monthlyTotals[monthIndex]) {
+      monthlyTotals[monthIndex] = { income: 0, expense: 0 };
+    }
+    monthlyTotals[monthIndex].income += amount;
+  });
+
+  // Process expense data
+  expenseData.forEach(({ date, amount }) => {
+    const monthIndex = getMonth(new Date(date));
+    if (!monthlyTotals[monthIndex]) {
+      monthlyTotals[monthIndex] = { income: 0, expense: 0 };
+    }
+    monthlyTotals[monthIndex].expense += amount;
+  });
+
+  // Map to chart data format
+  return Array.from({ length: 12 }, (_, index) => {
+    const monthName = format(new Date(2024, index, 1), "MMMM");
+    const data = monthlyTotals[index] || { income: 0, expense: 0 };
+    return {
+      month: monthName,
+      desktop: data.expense, // Map to 'desktop' for the chart
+      mobile: data.income, // Map to 'mobile' for the chart
+    };
+  });
+}
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
-    color: "rgba(37, 100, 235, 0.5)",
+    label: "Expenses",
+    color: "#FF033E",
   },
   mobile: {
-    label: "Mobile",
-    color: "#2563eb",
+    label: "Incomes",
+    color: "#0f9c0a",
   },
 } satisfies ChartConfig;
 
 export function Component() {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [incomeResponse, expenseResponse] = await Promise.all([
+          fetch("http://localhost:4000/income").then((res) => res.json()),
+          fetch("http://localhost:4000/expense").then((res) => res.json()),
+        ]);
+
+        const aggregatedData = aggregateDataByMonth(
+          incomeResponse,
+          expenseResponse
+        );
+        setChartData(aggregatedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Card>
       <CardHeader>
