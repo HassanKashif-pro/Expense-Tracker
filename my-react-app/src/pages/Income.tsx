@@ -160,7 +160,7 @@ function Income() {
   return (
     <div className="expense-main">
       <Header />
-      <div className="card" style={{ height: "100vh", margin: "20px" }}>
+      <div className="card" style={{ height: "80vh", margin: "20px" }}>
         <div className="expense-title">Income</div>
         <div className="total-card">
           TOTAL INCOME:{" "}
@@ -319,7 +319,7 @@ function Income() {
           <div className="income-card">
             <div className="income-header">Recent Incomes</div>
             <ul>
-              {incomeData.slice(-4).map((income: any, index: number) => {
+              {incomeData.slice(-3).map((income: any, index: number) => {
                 const formattedDate = format(
                   new Date(income.date),
                   "dd/MM/yyyy"
