@@ -45,6 +45,20 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+export const fetchSignUp = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const signUps = await User.find().sort({ createdAt: -1 });
+
+    res.status(200).json(signUps);
+  } catch (error) {
+    console.error("Error fetching sign-up data:", error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 // Example placeholder for the Sign In function
 export const signIn = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
