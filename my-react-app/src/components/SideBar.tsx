@@ -70,7 +70,7 @@ export default function Sidebar({ children }: SidebarProps) {
     <aside className="sidebar">
       <nav className="sidebar__nav">
         <div className="sidebar__header">
-          <img className="sidebar__logo" alt="Logo" />
+          <img className="sidebar__logo" src="../public/nav-logo.png" />
         </div>
 
         {/* Sidebar context to control active item */}
@@ -80,11 +80,7 @@ export default function Sidebar({ children }: SidebarProps) {
 
         {/* Footer with user information */}
         <div className="sidebar__footer">
-          <img
-            src={require("../assets/bot.ico")} // Adjust path based on your file structure
-            alt="User Avatar"
-            className="sidebar__avatar"
-          />
+          <img src="../public/bot.ico" className="sidebar__avatar" />
           <div className="sidebar__user-info">
             <div className="sidebar__user-text">
               <h4 className="sidebar__user-name">{userName}</h4>
